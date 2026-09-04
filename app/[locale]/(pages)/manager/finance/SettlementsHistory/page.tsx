@@ -10,7 +10,6 @@ import { useGetSettlementsHistoryQuery } from "@/redux/features/technicianEarnin
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import DateFilter from "@/components/shared/DateFilter";
 import { generateSettlementPDF } from "@/lib/pdf/SettlementPDF";
 import RefreshButton from "@/components/shared/RefreshButton";
@@ -33,7 +32,7 @@ export default function SettlementsHistoryPage() {
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  const { data: response, isFetching , refetch } = useGetSettlementsHistoryQuery({
+  const { data: response, isFetching, refetch } = useGetSettlementsHistoryQuery({
     search: debouncedSearch,
     start_date: startDate,
     end_date: endDate,
@@ -45,10 +44,8 @@ export default function SettlementsHistoryPage() {
   const meta = response?.meta || { totalPages: 1 };
 
   return (
-    <div className="flex flex-col p-4 md:p-6 min-h-screen bg-slate-50/50 w-full" dir="rtl">
-      
-      {/* Header */}
-      <div className="flex flex-row flex-wrap  md:flex-row bg-primary rounded-2xl justify-between items-start md:items-center gap-5 p-5 md:p-6 shadow-md mb-6 w-full">
+    <div className="flex flex-col p-4 max-w-dvw md:p-6 min-h-screen bg-slate-50/50 w-full" dir="rtl">
+      <div className="flex flex-row flex-wrap md:flex-row bg-primary rounded-2xl justify-between items-start md:items-center gap-5 p-5 md:p-6 shadow-md mb-6 w-full">
         <div className="flex bg-primary items-center gap-4">
           <div className="w-12 h-12 shrink-0 bg-white rounded-xl flex items-center justify-center text-primary">
             <History size={26} strokeWidth={1.5} />
@@ -59,13 +56,10 @@ export default function SettlementsHistoryPage() {
           </div>
         </div>
         <div className="bg-white rounded-full">
-         <RefreshButton onRefresh={refetch} isFetching={isFetching} variant="icon" />
-
+          <RefreshButton onRefresh={refetch} isFetching={isFetching} variant="icon" />
         </div>
-     
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col gap-4 bg-white border border-slate-200/60 shadow-sm p-5 md:p-6 rounded-2xl w-full mb-6">
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="relative flex-1 w-full">
@@ -83,7 +77,6 @@ export default function SettlementsHistoryPage() {
         </div>
       </div>
 
-      {/* Table Data */}
       {isFetching ? (
         <div className="text-center py-20 text-slate-500 font-bold flex flex-col items-center">
           <Loader2 className="w-8 h-8 animate-spin mb-3 text-primary" />
@@ -95,65 +88,59 @@ export default function SettlementsHistoryPage() {
           لا توجد كشوف تسوية مطابقة للبحث.
         </div>
       ) : (
-        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden w-full transition-all animate-in fade-in">
-          <div className="overflow-x-auto w-full">
-            <Table className="min-w-[950px]">
-              <TableHeader className="bg-slate-50 border-b border-slate-100">
-                <TableRow>
-                  <TableHead className="text-right py-4 font-bold text-slate-600">رقم الكشف</TableHead>
-                  <TableHead className="text-right py-4 font-bold text-slate-600">اسم الفني المستفيد</TableHead>
-                  <TableHead className="text-center py-4 font-bold text-slate-600">المبلغ المدفوع</TableHead>
-                  <TableHead className="text-right py-4 font-bold text-slate-600">الخزنة / البند</TableHead>
-                  <TableHead className="text-right py-4 font-bold text-slate-600">تاريخ الصرف</TableHead>
-                  <TableHead className="text-center py-4 font-bold text-slate-600">الإجراءات</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {settlements.map((item: any) => (
-                  <TableRow key={item.id} className="hover:bg-slate-50/50 transition-colors">
-                    <TableCell className="py-4 font-mono font-bold text-slate-800 whitespace-nowrap">{item.settlement_ref}</TableCell>
-                    <TableCell className="py-4 font-bold text-slate-800 whitespace-nowrap">{item.technician_name}</TableCell>
-                    
-                    <TableCell className="text-center py-4 whitespace-nowrap">
-                      <span className="font-mono font-bold text-base text-rose-600 bg-rose-50 px-3 py-1 rounded-md border border-rose-100 flex items-center justify-center gap-1 w-fit mx-auto">
-                        {Number(item.total_amount).toLocaleString()} ج.م
-                      </span>
-                    </TableCell>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full transition-all animate-in fade-in">
+          {settlements.map((item: any) => (
+            <div key={item.id} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 flex flex-col gap-4 hover:shadow-md transition-shadow">
+              <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <span className="font-mono font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-lg text-sm">
+                  {item.settlement_ref}
+                </span>
+                <div className="flex flex-col text-left">
+                  <span className="font-bold text-slate-700 text-sm text-left">
+                    {format(new Date(item.created_at), 'yyyy/MM/dd', { locale: ar })}
+                  </span>
+                  <span className="text-[11px] text-slate-500 text-left">بواسطة: {item.created_by_name}</span>
+                </div>
+              </div>
 
-                    <TableCell className="py-4 whitespace-nowrap">
-                      <div className="flex flex-col text-[12px] font-medium text-slate-600">
-                        <span>خزنة: <span className="font-bold text-slate-800">{item.safe_name}</span></span>
-                        <span>بند: <span className="text-slate-500">{item.account_name}</span></span>
-                      </div>
-                    </TableCell>
-                    
-                    <TableCell className="text-right py-4 text-[13px] text-slate-500 whitespace-nowrap">
-                      <div className="flex flex-col">
-                        <span className="font-bold text-slate-700">{format(new Date(item.created_at), 'yyyy/MM/dd')}</span>
-                        <span className="text-[11px]">بواسطة: {item.created_by_name}</span>
-                      </div>
-                    </TableCell>
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-slate-500">اسم الفني:</span>
+                  <span className="font-bold text-slate-800">{item.technician_name}</span>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-slate-500">المبلغ المدفوع:</span>
+                  <span className="font-mono font-bold text-base text-rose-600 bg-rose-50 px-3 py-1 rounded-md border border-rose-100">
+                    {Number(item.total_amount).toLocaleString()} ج.م
+                  </span>
+                </div>
 
-                    <TableCell className="text-center  py-4 whitespace-nowrap">
-                      <Button  
-                        size="sm"
-                        onClick={() => generateSettlementPDF(item)}
-                        className="h-9 px-4 w-full rounded-xl bg-primary items-center text-center border-gray-500 hover:bg-primary/80 text-white font-bold text-xs shadow-sm flex  justify-center gap-2 transition-all active:scale-95"
-                      >
-                        <Printer className="w-4 h-4" /> طباعة السند
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-slate-500">الخزنة / البند:</span>
+                  <div className="flex flex-col text-left text-[12px] font-medium text-slate-600">
+                    <span className="font-bold text-slate-800">{item.safe_name}</span>
+                    <span className="text-slate-500">{item.account_name}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-slate-100 mt-auto">
+                <Button
+                  size="sm"
+                  onClick={() => generateSettlementPDF(item)}
+                  className="h-10 w-full rounded-xl bg-primary text-white font-bold text-sm shadow-sm flex justify-center items-center gap-2 hover:bg-primary/90 transition-all active:scale-95"
+                >
+                  <Printer className="w-4 h-4" /> طباعة السند
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
-      {/* Pagination */}
       {meta.totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-6">
+        <div className="flex justify-center items-center gap-2 mt-8">
           <Button variant="outline" disabled={page === 1} onClick={() => setPage(p => p - 1)} className="rounded-xl h-10 px-5 font-bold border-slate-200">
             السابق
           </Button>

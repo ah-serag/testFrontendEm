@@ -77,7 +77,7 @@ export default function VouchersListPage() {
   };
 
   return (
-    <div className="flex flex-col p-2" dir="rtl">
+    <div className="flex max-w-dvw flex-col p-2" dir="rtl">
       
       <div className="flex flex-col md:flex-row rounded-2xl flex-wrap justify-between items-start md:items-center gap-5 bg-white p-4 border border-slate-200 shadow-sm m-3">
         <div className="flex items-center gap-4">

@@ -180,7 +180,7 @@ export default function AssignmentsPage() {
   };
 
   return (
-    <div className="flex-col p-2">
+    <div className="flex-col p-2 max-w-dvw">
        <div className="flex flex-row justify-between  border rounded-2xl shadow-md m-3  items-center flex-wrap gap-4 bg-white   p-4  ">
         <div>
           <div className="flex items-center  gap-3">

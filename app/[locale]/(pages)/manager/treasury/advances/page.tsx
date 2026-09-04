@@ -132,7 +132,7 @@ export default function AdvancesPage() {
   };
 
   return (
-    <div className="p-4 sm:p-6 space-y-5 bg-slate-50/50 min-h-[calc(100vh-4rem)] text-xs sm:text-sm" dir="rtl">
+    <div className="p-4 sm:p-6 space-y-5 max-w-dvw bg-slate-50/50 min-h-[calc(100vh-4rem)] text-xs sm:text-sm" dir="rtl">
       
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm gap-4">
         <div>

@@ -125,7 +125,7 @@ export default function TechnicianEarningsPage() {
   };
 
   return (
-    <div className="flex flex-col p-4 md:p-6 min-h-screen bg-slate-50/50 w-full overflow-hidden" dir="rtl">
+    <div className="flex flex-col max-w-dvw p-4 md:p-6 min-h-screen bg-slate-50/50 w-full overflow-hidden" dir="rtl">
       
       {/* ===================== Header ===================== */}
       <div className="flex flex-col md:flex-row bg-primary rounded-2xl justify-between items-start md:items-center gap-5 p-5 md:p-6 shadow-md mb-6 w-full">

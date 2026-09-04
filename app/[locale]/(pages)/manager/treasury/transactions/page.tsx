@@ -65,7 +65,7 @@ export default function TreasuryTransactionsPage() {
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-9xl mx-auto space-y-5">
+    <div className="p-4 md:p-6 max-w-dvw mx-auto space-y-5">
       
       {/* ================= Header ================= */}
       <div className="flex flex-row justify-between flex-wrap items-center gap-4 bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200/60">

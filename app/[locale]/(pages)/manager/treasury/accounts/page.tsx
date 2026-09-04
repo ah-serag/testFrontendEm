@@ -92,7 +92,7 @@ export default function AccountsPage() {
   };
 
   return (
-    <div className="flex flex-col p-2" dir={isRTL ? "rtl" : "ltr"}>
+    <div className="flex max-w-dvw flex-col p-2" dir={isRTL ? "rtl" : "ltr"}>
       
       {/* ================= Header (White & Elegant) ================= */}
       <div className="flex flex-col md:flex-row rounded-2xl flex-wrap justify-between items-start md:items-center gap-5 bg-white p-5 shadow-sm m-3 border border-slate-200">

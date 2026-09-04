@@ -6,4 +6,5 @@ export default function Home() {
        hello manager goooo  tooooooo  hhh UUUUU
     </div>
   );
-}
+
+} 

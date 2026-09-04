@@ -105,7 +105,7 @@ export default function ExpensesLedgerPage() {
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-9xl mx-auto space-y-5">
+    <div className="p-4 md:p-6 max-w-dvw mx-auto space-y-5">
       {/* ================= Header & Stats ================= */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60">
         <div className="flex items-center gap-4">
@@ -240,83 +240,116 @@ export default function ExpensesLedgerPage() {
       )}
 
       {/* ================= Approve Modal ================= */}
-      <Dialog open={!!selectedExpense} onOpenChange={(open) => !open && setSelectedExpense(null)}>
-        <DialogContent aria-describedby={undefined} className="sm:max-w-[420px] p-0 rounded-[2rem] overflow-hidden border-0 bg-slate-50 shadow-2xl">
-          <div className="bg-indigo-900 text-white p-7 relative">
-            <DialogTitle className="flex items-center gap-2.5 text-lg font-bold">
-              <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center">
-                <Receipt className="text-indigo-400 w-5 h-5" />
-              </div>
-              {t("modal.title")}
-            </DialogTitle>
-            <div className="mt-5 bg-indigo-800/80 rounded-2xl p-4 border border-indigo-700/50 flex justify-between items-center shadow-inner">
-              <span className="text-[13px] text-indigo-100 font-medium">{t("modal.requiredAmount")}</span>
-              <span className="font-mono font-bold text-2xl text-white">
-                {selectedExpense ? Number(selectedExpense.amount).toLocaleString() : 0} ج
-              </span>
+     <Dialog open={!!selectedExpense} onOpenChange={(open) => !open && setSelectedExpense(null)}>
+  {/* 
+    flex flex-col & max-h-[90vh] & overflow-hidden:
+    تضمن أن المودال لن يتجاوز 90% من الشاشة وسيسمح للمحتوى الداخلي بالتمرير بشكل سليم
+  */}
+  <DialogContent aria-describedby={undefined} className="sm:max-w-[480px] p-0 rounded-2xl sm:rounded-[2rem] overflow-hidden border-0 bg-slate-50 shadow-2xl flex flex-col max-h-[90vh]" dir="rtl">
+    
+    {/* ================= Header (ثابت) ================= */}
+    {/* shrink-0 يمنع هذا الجزء من الانكماش ويجعله ثابتاً، pb-10 يعطي مساحة للتداخل مع النموذج تحته */}
+    <div className="bg-indigo-900 text-white p-5 sm:p-7 pb-10 sm:pb-12 relative shrink-0 z-10">
+      <DialogTitle className="flex items-center gap-2.5 text-base sm:text-lg font-bold">
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center shrink-0">
+          <Receipt className="text-indigo-400 w-4 h-4 sm:w-5 sm:h-5" />
+        </div>
+        {t("modal.title")}
+      </DialogTitle>
+      <div className="mt-4 sm:mt-5 bg-indigo-800/80 rounded-xl p-3 sm:p-4 border border-indigo-700/50 flex justify-between items-center shadow-inner">
+        <span className="text-[12px] sm:text-[13px] text-indigo-100 font-bold">{t("modal.requiredAmount")}</span>
+        <span className="font-mono font-bold text-xl sm:text-2xl text-white">
+          {selectedExpense ? Number(selectedExpense.amount).toLocaleString() : 0} ج
+        </span>
+      </div>
+    </div>
+
+    {/* ================= Form Wrapper ================= */}
+    {/* flex-1 & min-h-0 تجعل هذا الجزء يأخذ المساحة المتبقية فقط وتفعل التمرير للمحتوى الداخلي */}
+    <form id="approve-expense-form" onSubmit={handleSubmit(handleApprove)} className="flex-1 flex flex-col min-h-0 bg-slate-50 -mt-6 sm:-mt-8 rounded-t-2xl sm:rounded-t-[2rem] relative z-20 overflow-hidden shadow-[0_-8px_20px_-10px_rgba(0,0,0,0.1)]">
+      
+      {/* ================= Content (قابل للتمرير) ================= */}
+      <div className="flex-1 overflow-y-auto p-5 sm:p-7 space-y-4 sm:space-y-5">
+        
+        <div className="bg-indigo-50/80 border border-indigo-100 p-3.5 sm:p-4 rounded-xl flex items-start gap-3 shadow-sm">
+          <Info className="text-indigo-500 w-4 h-4 sm:w-5 sm:h-5 shrink-0 mt-0.5" />
+          <p className="text-[11px] sm:text-[12px] text-indigo-800 font-medium leading-relaxed">
+            {t("modal.infoText")}
+          </p>
+        </div>
+
+        <div className="space-y-2 pt-2">
+          <label className="text-[12px] sm:text-[13px] font-bold text-slate-700 flex items-center gap-1">
+            {t("modal.actualAmount")} <span className="text-rose-500">*</span>
+          </label>
+          <div className="relative">
+            <Input 
+              type="number" 
+              step="0.01" 
+              {...register("amount")}
+              className="h-11 sm:h-12 pl-12 sm:pl-14 px-3 sm:px-4 rounded-xl text-base sm:text-lg font-mono font-bold text-right border-slate-200 bg-white focus-visible:ring-indigo-500/30 focus-visible:border-indigo-500 shadow-sm transition-all"
+            />
+            <div className="absolute left-1.5 top-1.5 bottom-1.5 flex items-center justify-center bg-slate-50 px-2 sm:px-3 rounded-lg border border-slate-100 text-slate-500 font-bold text-[11px] sm:text-[13px]">
+              ج.م
             </div>
           </div>
+          {errors.amount && <p className="text-[10px] sm:text-[11px] text-rose-500 font-bold">{errors.amount.message as string}</p>}
 
-          <form onSubmit={handleSubmit(handleApprove)} className="p-7 space-y-6 -mt-6 bg-slate-50 rounded-t-[2rem] relative z-20">
-            <div className="bg-indigo-50 border border-indigo-100 p-3.5 rounded-xl flex gap-3 shadow-inner">
-              <Info className="text-indigo-500 mb-4  w-5 h-5 shrink-0 mt-0.5" />
-              <p className="text-[11.5px] text-indigo-800 font-medium leading-relaxed">
-                {t("modal.infoText")}
-              </p>
-            </div>
+          {Number(watchAmount) > (selectedExpense?.amount || 0) && (
+            <p className="text-[10px] sm:text-[11px] text-rose-500 font-bold bg-rose-50 p-2.5 rounded-lg mt-1.5 border border-rose-100 flex items-center gap-2">
+              <Info className="w-3.5 h-3.5 shrink-0" />
+              {t("modal.warningExcess")}
+            </p>
+          )}
+        </div>
 
-            <div className="space-y-2.5 mt-3">
-              <label className="text-[13px] font-bold mb-4 text-slate-700 flex items-center gap-1">{t("modal.actualAmount")} <span className="text-rose-500">*</span></label>
-              <div className="relative">
-                <Input 
-                  type="number" 
-                  step="0.01" 
-                  {...register("amount")}
-                  className="h-12 pl-14 px-4 rounded-xl  text-lg font-mono font-bold text-right border-slate-200 bg-white focus-visible:ring-indigo-500/30 focus-visible:border-indigo-500 shadow-sm"
-                />
-                <div className="absolute left-1.5 top-1.5 bottom-1.5 flex items-center justify-center bg-slate-50 px-3 rounded-lg border border-slate-100 text-slate-500 font-bold text-[13px]">
-                  ج.م
-                </div>
-              </div>
-              {errors.amount && <p className="text-[11px] text-rose-500 font-bold">{errors.amount.message as string}</p>}
+        <div className="space-y-2">
+          <label className="text-[12px] sm:text-[13px] font-bold text-slate-700 flex items-center gap-1">
+            تصنيف المصروف (شجرة الحسابات) <span className="text-rose-500">*</span>
+          </label>
+          <div className={errors.account_id ? "rounded-xl ring-2 ring-rose-500/30 border border-rose-500 overflow-hidden" : ""}>
+            <AccountSelect 
+              value={watchAccountId}
+              onChange={(val: string) => setValue("account_id", val, { shouldValidate: true })} 
+              placeholder="اختر حساب المصروف..."
+            />
+          </div>
+          {errors.account_id && <p className="text-[10px] sm:text-[11px] text-rose-500 font-bold">{errors.account_id.message as string}</p>}
+        </div>
 
-              {Number(watchAmount) > (selectedExpense?.amount || 0) && (
-                <p className="text-[11px] text-rose-500 font-bold bg-rose-50 p-2 rounded-md mt-1 border border-rose-100">
-                  {t("modal.warningExcess")}
-                </p>
-              )}
-            </div>
+        <div className="space-y-2 pb-2">
+          <label className="text-[12px] sm:text-[13px] font-bold text-slate-700">{t("modal.notes")}</label>
+          <Textarea 
+            {...register("notes")} 
+            className="h-20 sm:h-24 rounded-xl bg-white border-slate-200 text-[12px] sm:text-[13px] resize-none p-3 sm:p-4 focus-visible:ring-indigo-500/30 transition-all shadow-sm" 
+            placeholder={t("modal.notesPlaceholder")} 
+          />
+        </div>
+      </div>
 
-            {/* 🔴 الحقل الجديد لاختيار حساب المصروف (شجرة الحسابات) */}
-            <div className="space-y-2.5">
-              <label className="text-[13px] font-bold text-slate-700 flex items-center gap-1">تصنيف المصروف (شجرة الحسابات) <span className="text-rose-500">*</span></label>
-              <div className={errors.account_id ? "rounded-xl ring-2 ring-rose-500/30 border border-rose-500 overflow-hidden" : ""}>
-                <AccountSelect 
-                  value={watchAccountId}
-                  onChange={(val: string) => setValue("account_id", val, { shouldValidate: true })} 
-                  placeholder="اختر حساب المصروف..."
-                />
-              </div>
-              {errors.account_id && <p className="text-[11px] text-rose-500 font-bold">{errors.account_id.message as string}</p>}
-            </div>
+      {/* ================= Footer (ثابت بالأسفل) ================= */}
+      {/* shrink-0 يمنعه من الاختفاء ويجعله ثابتاً خارج منطقة السكرول */}
+      <div className="shrink-0 bg-white border-t border-slate-100 p-4 sm:p-5 flex flex-col sm:flex-row justify-end gap-2.5 sm:gap-3 z-30">
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={() => setSelectedExpense(null)} 
+          className="w-full sm:w-1/3 h-11 sm:h-12 rounded-xl text-[13px] sm:text-[14px] text-slate-600 font-bold bg-white border-slate-200 hover:bg-slate-50 transition-all order-2 sm:order-1"
+        >
+          {t("modal.cancel")}
+        </Button>
+        <Button 
+          type="submit" 
+          disabled={isApproving || !watchAmount || Number(watchAmount) <= 0} 
+          className="w-full sm:flex-1 h-11 sm:h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[13px] sm:text-[14px] shadow-md transition-all active:scale-[0.98] order-1 sm:order-2"
+        >
+          {isApproving ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : <><ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 ml-1.5" /> {t("modal.confirm")}</>}
+        </Button>
+      </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[13px] font-bold text-slate-700">{t("modal.notes")}</label>
-              <Textarea {...register("notes")} className="h-20 rounded-2xl bg-white border-slate-200 text-[13px] resize-none p-4 focus-visible:ring-indigo-500/30" placeholder={t("modal.notesPlaceholder")} />
-            </div>
-
-            <div className="pt-2 flex gap-3">
-              <Button type="button" variant="outline" onClick={() => setSelectedExpense(null)} className="w-1/3 h-12 rounded-2xl text-[14px] text-slate-600 font-bold bg-white border-slate-200">
-                {t("modal.cancel")}
-              </Button>
-              <Button type="submit" disabled={isApproving || !watchAmount || Number(watchAmount) <= 0} className="flex-1 h-12 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[14px] shadow-lg">
-                {isApproving ? <Loader2 className="w-5 h-5 animate-spin" /> : <><ShieldCheck className="w-5 h-5 ml-2" /> {t("modal.confirm")}</>}
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-
+    </form>
+  </DialogContent>
+</Dialog>
       {/* ================= Reject Confirmation Modal ================= */}
       <Dialog open={!!expenseToReject} onOpenChange={(open) => !open && closeRejectModal()}>
         <DialogContent aria-describedby={undefined} className="sm:max-w-[420px] p-0 rounded-[2rem] overflow-hidden border-0 bg-white shadow-2xl">

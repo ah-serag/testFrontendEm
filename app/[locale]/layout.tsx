@@ -42,7 +42,7 @@ export default async function RootLayout({ children, params }: Props) {
       )}
     >
       <body className="font-sans overflow-hidden  antialiased bg-background text-foreground">
-        <ScrollArea className="flex-1 h-full w-full" dir="rtl">
+        <ScrollArea className="flex-1 h-full w-full " dir="rtl">
 
                  <NextIntlClientProvider locale={locale} messages={messages}>
 

@@ -44,14 +44,13 @@ const AccountInfo = () => {
   if (!user) return null;
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center inset-0 z-[100] gap-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           {/* تم ضبط الـ Hover ليقوم بتكبير الأيقونة قليلاً مع الحفاظ على تناسق الألوان */}
-          <Avatar className="cursor-pointer transition-transform duration-200 hover:scale-105 ring-2 ring-transparent hover:ring-white/20">
-            <AvatarImage src={user.avatar_url} /> 
+          <Avatar className="cursor-pointer z-[100] transition-transform duration-200 hover:scale-105 ring-2 ring-transparent hover:ring-white/20">
             {/* رجعت الخلفية بيضاء والنص بلون الـ Primary وتم ضبط الـ Hover */}
-            <AvatarFallback className="bg-white text-primary hover:bg-slate-100 hover:text-primary transition-colors font-semibold">
+            <AvatarFallback className="bg-white z-[100] text-primary hover:bg-slate-100 hover:text-primary transition-colors font-semibold">
               {getInitials(user.full_name)}
             </AvatarFallback>
           </Avatar>

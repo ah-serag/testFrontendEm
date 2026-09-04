@@ -65,7 +65,7 @@ export default function CreateVoucherPage() {
   };
 
   return (
-    <div className="max-w-9xl mx-auto p-3 sm:p-6 md:p-8" dir="rtl">
+    <div className="max-w-dvw mx-auto p-3 sm:p-6 md:p-8" dir="rtl">
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         
         {/* Header */}

@@ -152,11 +152,11 @@ const zoneForm = useForm<ZoneFormValues>({
   }
 
   return (
-    <div className="space-y-6 w-full p-4 md:p-6 max-w-full overflow-hidden">
+    <div className="space-y-6 w-full  p-4 md:p-6 max-w-dvw overflow-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row mb-20 sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl sm:text-3xl text-primary font-bold tracking-tight flex items-center gap-2">
             <Globe2 className="w-6 h-6 sm:w-8 sm:h-8 " />
             Locations Management
           </h1>
@@ -164,86 +164,148 @@ const zoneForm = useForm<ZoneFormValues>({
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <div className="overflow-x-auto pb-2">
-          <TabsList className="flex w-full min-w-max md:w-[600px] h-11">
-            <TabsTrigger value="all" className="flex-1"><Globe2 className="w-4 h-4 mr-2"/> All</TabsTrigger>
-            <TabsTrigger value="governorates" className="flex-1"><Map className="w-4 h-4 mr-2"/> Governorates</TabsTrigger>
-            <TabsTrigger value="zones" className="flex-1"><MapPin className="w-4 h-4 mr-2"/> Zones</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-20">
+        
+        {/* ======================= TABS HEADER ======================= */}
+        <div className="w-full mb-6">
+          <TabsList className="flex flex-col sm:flex-row w-full h-auto p-1.5 bg-slate-100/80 border border-slate-200/60 rounded-2xl gap-1.5">
+            <TabsTrigger 
+              value="all" 
+              className="w-full sm:flex-1 py-3 sm:py-2.5 h-auto sm:h-10 flex justify-center items-center rounded-xl text-[13px] font-bold shadow-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all"
+            >
+              <Globe2 className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" /> All
+            </TabsTrigger>
+            <TabsTrigger 
+              value="governorates" 
+              className="w-full sm:flex-1 py-3 sm:py-2.5 h-auto sm:h-10 flex justify-center items-center rounded-xl text-[13px] font-bold shadow-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all"
+            >
+              <Map className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" /> Governorates
+            </TabsTrigger>
+            <TabsTrigger 
+              value="zones" 
+              className="w-full sm:flex-1 py-3 sm:py-2.5 h-auto sm:h-10 flex justify-center items-center rounded-xl text-[13px] font-bold shadow-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all"
+            >
+              <MapPin className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" /> Zones
+            </TabsTrigger>
           </TabsList>
         </div>
 
         {/* ======================= TAB 1: ALL TOGETHER ======================= */}
-        <TabsContent value="all" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
-          {isLoading && <div className="text-center py-8">Loading locations...</div>}
-          {!isLoading && governoratesList.length === 0 && <div className="text-center py-8 text-muted-foreground">No data found.</div>}
+        <TabsContent value="all" className="space-y-4 animate-in mt-16 fade-in duration-300">
+          {isLoading && (
+            <div className="text-center py-12 text-slate-400 font-bold animate-pulse bg-white border border-slate-200/60 rounded-2xl shadow-sm">
+              Loading locations...
+            </div>
+          )}
+          {!isLoading && governoratesList.length === 0 && (
+            <div className="text-center py-12 text-slate-500 font-bold bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl">
+              No data found.
+            </div>
+          )}
           
           {governoratesList.map((gov) => {
             const isExpanded = expandedGovs.includes(gov.id);
             return (
-              <div key={gov.id} className="bg-background border shadow-sm p-3 sm:p-4 overflow-hidden">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-2">
+              <div key={gov.id} className="bg-white border border-slate-200/60 rounded-2xl shadow-sm overflow-hidden transition-all hover:shadow-md">
+                
+                {/* Governorate Header (Accordion Toggle) */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 sm:p-5">
                   <div 
-                    className="flex-1 flex items-center gap-2 sm:gap-3 cursor-pointer group w-full"
+                    className="flex-1 flex items-center gap-3 cursor-pointer group w-full"
                     onClick={() => toggleGov(gov.id)}
                   >
-                    <div className="text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:bg-primary/10 transition-colors shrink-0 border border-slate-100">
                       {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg sm:text-xl font-bold flex flex-wrap items-center gap-2">
+                      <h3 className="text-[15px] sm:text-base font-bold flex flex-wrap items-center gap-2 text-slate-800 leading-tight">
                         {gov.name_en} 
-                        <Badge variant={gov.is_active ? "default" : "secondary"} className="text-xs">
+                        <Badge variant={gov.is_active ? "default" : "secondary"} className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${gov.is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-none' : ''}`}>
                           {gov.is_active ? "Active" : "Inactive"}
                         </Badge>
                       </h3>
-                      <p className="text-muted-foreground text-xs sm:text-sm">{gov.name_ar}</p>
+                      <p className="text-slate-500 text-[12px] sm:text-[13px] mt-0.5 font-medium">{gov.name_ar}</p>
                     </div>
                   </div>
 
-                  <div className="flex gap-2 w-full sm:w-auto pl-7 sm:pl-0">
-                    <Button variant="outline" size="sm" onClick={() => openGovEdit(gov)} className="flex-1 sm:flex-none">
-                      <Edit className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">Edit</span>
+                  <div className="flex gap-2 w-full sm:w-auto pl-12 rtl:pl-0 rtl:pr-12 sm:pl-0 sm:rtl:pr-0">
+                    <Button variant="outline" size="sm" onClick={() => openGovEdit(gov)} className="flex-1 sm:flex-none h-10 rounded-xl border-slate-200 text-slate-600 hover:text-primary">
+                      <Edit className="w-4 h-4 sm:mr-1.5 sm:rtl:ml-1.5 sm:rtl:mr-0" /> <span className="hidden sm:inline font-bold">Edit</span>
                     </Button>
-                    <Button size="sm" onClick={() => openZoneAdd(gov.id)} className="flex-1 sm:flex-none">
-                      <Plus className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">Add Zone</span>
+                    <Button size="sm" onClick={() => openZoneAdd(gov.id)} className="flex-1 sm:flex-none h-10 rounded-xl bg-primary text-white hover:bg-primary/90 font-bold">
+                      <Plus className="w-4 h-4 sm:mr-1.5 sm:rtl:ml-1.5 sm:rtl:mr-0" /> <span className="hidden sm:inline">Add Zone</span>
                     </Button>
                   </div>
                 </div>
 
+                {/* Expanded Zones Content */}
                 {isExpanded && (
-                  <div className="mt-3 pt-3 sm:mt-4 sm:pt-4 border-t">
+                  <div className="bg-slate-50/50 border-t border-slate-100 p-4 sm:p-5 animate-in slide-in-from-top-2">
                     {gov.zones && gov.zones.length > 0 ? (
-                      <div className="overflow-x-auto -mx-3 sm:mx-0 px-3 sm:px-0">
-                        <Table>
-                          <TableHeader className="bg-muted/30">
-                            <TableRow>
-                              <TableHead className="whitespace-nowrap">Zone (EN)</TableHead>
-                              <TableHead className="whitespace-nowrap hidden sm:table-cell">Zone (AR)</TableHead>
-                              <TableHead>Status</TableHead>
-                              <TableHead className="text-right">Actions</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {gov.zones.map((zone) => (
-                              <TableRow key={zone.id}>
-                                <TableCell className="font-medium whitespace-nowrap">
-                                  {zone.name_en}
-                                  <div className="sm:hidden text-xs text-muted-foreground mt-1">{zone.name_ar}</div>
-                                </TableCell>
-                                <TableCell className="hidden sm:table-cell">{zone.name_ar}</TableCell>
-                                <TableCell><Badge variant={zone.is_active ? "outline" : "secondary"}>{zone.is_active ? "Active" : "Inactive"}</Badge></TableCell>
-                                <TableCell className="text-right space-x-2 whitespace-nowrap">
-                                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openZoneEdit(zone)}><Edit className="w-4 h-4" /></Button>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteItem({ type: 'zone', id: zone.id, name: zone.name_en })}><Trash2 className="w-4 h-4" /></Button>
-                                </TableCell>
+                      <>
+                        {/* Mobile Zones Cards */}
+                        <div className="grid grid-cols-1 gap-3 md:hidden">
+                          {gov.zones.map((zone) => (
+                            <div key={zone.id} className="bg-white border border-slate-200/60 rounded-xl p-3.5 shadow-sm flex flex-col gap-3">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <h4 className="font-bold text-[14px] text-slate-800 leading-tight">{zone.name_en}</h4>
+                                  <p className="text-[12px] text-slate-500 mt-0.5">{zone.name_ar}</p>
+                                </div>
+                                <Badge variant={zone.is_active ? "outline" : "secondary"} className="text-[10px] font-bold">
+                                  {zone.is_active ? "Active" : "Inactive"}
+                                </Badge>
+                              </div>
+                              <div className="flex justify-end gap-2 pt-2 border-t border-slate-50">
+                                <Button variant="outline" size="sm" className="h-8 rounded-lg px-3 text-[12px]" onClick={() => openZoneEdit(zone)}>
+                                  <Edit className="w-3.5 h-3.5 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                                </Button>
+                                <Button variant="destructive" size="icon" className="h-8 w-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border-none shadow-none" onClick={() => setDeleteItem({ type: 'zone', id: zone.id, name: zone.name_en })}>
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Desktop Zones Table */}
+                        <div className="hidden md:block bg-white border border-slate-200/60 rounded-xl overflow-hidden shadow-sm">
+                          <Table>
+                            <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+                              <TableRow className="hover:bg-transparent">
+                                <TableHead className="font-bold text-slate-600 py-3">Zone (EN / AR)</TableHead>
+                                <TableHead className="font-bold text-slate-600 py-3">Status</TableHead>
+                                <TableHead className="text-right font-bold text-slate-600 py-3">Actions</TableHead>
                               </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </div>
+                            </TableHeader>
+                            <TableBody>
+                              {gov.zones.map((zone) => (
+                                <TableRow key={zone.id} className="hover:bg-slate-50/50 border-b border-slate-50 transition-colors">
+                                  <TableCell className="font-medium py-3">
+                                    <span className="text-slate-800 font-bold block">{zone.name_en}</span>
+                                    <span className="text-xs text-slate-500 block mt-0.5">{zone.name_ar}</span>
+                                  </TableCell>
+                                  <TableCell className="py-3">
+                                    <Badge variant={zone.is_active ? "outline" : "secondary"} className="text-[10px] font-bold">
+                                      {zone.is_active ? "Active" : "Inactive"}
+                                    </Badge>
+                                  </TableCell>
+                                  <TableCell className="text-right py-3 space-x-2 rtl:space-x-reverse">
+                                    <Button variant="ghost" size="sm" className="h-8 rounded-lg text-slate-600 hover:text-primary hover:bg-primary/5 font-bold" onClick={() => openZoneEdit(zone)}>
+                                      <Edit className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                                    </Button>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-50" onClick={() => setDeleteItem({ type: 'zone', id: zone.id, name: zone.name_en })}>
+                                      <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </>
                     ) : (
-                      <div className="text-center py-4 text-xs sm:text-sm text-muted-foreground bg-muted/20 border border-dashed">
+                      <div className="text-center py-6 text-[13px] font-medium text-slate-400 bg-white border border-dashed border-slate-200 rounded-xl">
                         No zones linked to this governorate yet.
                       </div>
                     )}
@@ -255,151 +317,189 @@ const zoneForm = useForm<ZoneFormValues>({
         </TabsContent>
 
         {/* ======================= TAB 2: GOVERNORATES ONLY ======================= */}
-        <TabsContent value="governorates" className="space-y-4 mt-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-background p-4 border shadow-sm gap-4 sm:gap-0">
-            <h2 className="text-lg font-semibold">Governorates</h2>
-            <Button onClick={openGovAdd} className="w-full sm:w-auto"><Plus className="w-4 h-4 mr-2" /> Add Governorate</Button>
+        <TabsContent value="governorates" className="space-y-4 animate-in mt-16 fade-in duration-300">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm gap-4 sm:gap-0">
+            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <Map className="text-primary w-5 h-5" /> Governorates List
+            </h2>
+            <Button onClick={openGovAdd} className="w-full sm:w-auto h-11 rounded-xl bg-primary hover:bg-primary/90 font-bold shadow-sm">
+              <Plus className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Add Governorate
+            </Button>
           </div>
           
-          <div className="bg-background border shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader className="bg-muted/50">
-                  <TableRow>
-                    <TableHead className="whitespace-nowrap">Governorate (EN)</TableHead>
-                    <TableHead className="whitespace-nowrap hidden sm:table-cell">Governorate (AR)</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {isLoading && <TableRow><TableCell colSpan={4} className="text-center py-8">Loading...</TableCell></TableRow>}
-                  {!isLoading && governoratesList.length === 0 && <TableRow><TableCell colSpan={4} className="text-center py-8 text-muted-foreground">No governorates found.</TableCell></TableRow>}
-                  {governoratesList.map((gov) => (
-                    <TableRow key={gov.id}>
-                      <TableCell className="font-medium whitespace-nowrap">
-                        {gov.name_en}
-                        <div className="sm:hidden text-xs text-muted-foreground mt-1">{gov.name_ar}</div>
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell">{gov.name_ar}</TableCell>
-                      <TableCell><Badge variant={gov.is_active ? "default" : "secondary"}>{gov.is_active ? "Active" : "Inactive"}</Badge></TableCell>
-                      <TableCell className="text-right space-x-1 sm:space-x-2 whitespace-nowrap">
-                        <Button variant="outline" size="icon" className="h-8 w-8 sm:h-9 sm:w-auto sm:px-3" onClick={() => openGovEdit(gov)}><Edit className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">Edit</span></Button>
-                        <Button variant="destructive" size="icon" className="h-8 w-8 sm:h-9 sm:w-auto sm:px-3" onClick={() => setDeleteItem({ type: 'gov', id: gov.id, name: gov.name_en })}><Trash2 className="w-4 h-4" /></Button>
-                      </TableCell>
+          {isLoading && <div className="text-center py-12 text-slate-400 font-bold animate-pulse bg-white border border-slate-200/60 rounded-2xl shadow-sm">Loading...</div>}
+          {!isLoading && governoratesList.length === 0 && <div className="text-center py-12 text-slate-500 font-bold bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl">No governorates found.</div>}
+          
+          {!isLoading && governoratesList.length > 0 && (
+            <>
+              {/* Mobile Governorates Cards */}
+              <div className="grid grid-cols-1 md:hidden gap-3">
+                {governoratesList.map((gov) => (
+                  <div key={gov.id} className="bg-white border border-slate-200/60 rounded-xl p-4 shadow-sm flex flex-col gap-3">
+                    <div className="flex justify-between items-start border-b border-slate-50 pb-3">
+                      <div>
+                        <h3 className="font-bold text-[15px] text-slate-800 leading-tight">{gov.name_en}</h3>
+                        <p className="text-[12px] text-slate-500 mt-1">{gov.name_ar}</p>
+                      </div>
+                      <Badge variant={gov.is_active ? "default" : "secondary"} className={`text-[10px] font-bold ${gov.is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-none' : ''}`}>
+                        {gov.is_active ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-end gap-2">
+                      <Button variant="outline" size="sm" className="h-9 rounded-lg px-4 text-[12px] font-bold" onClick={() => openGovEdit(gov)}>
+                        <Edit className="w-3.5 h-3.5 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                      </Button>
+                      <Button variant="destructive" size="icon" className="h-9 w-9 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border-none shadow-none" onClick={() => setDeleteItem({ type: 'gov', id: gov.id, name: gov.name_en })}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Governorates Table */}
+              <div className="hidden md:block bg-white border border-slate-200/60 rounded-2xl shadow-sm overflow-hidden">
+                <Table>
+                  <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+                    <TableRow className="hover:bg-transparent">
+                      <TableHead className="font-bold text-slate-600 py-4">Governorate (EN / AR)</TableHead>
+                      <TableHead className="font-bold text-slate-600 py-4">Status</TableHead>
+                      <TableHead className="text-right font-bold text-slate-600 py-4">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
+                  </TableHeader>
+                  <TableBody>
+                    {governoratesList.map((gov) => (
+                      <TableRow key={gov.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+                        <TableCell className="font-medium py-3">
+                          <span className="text-slate-800 font-bold block">{gov.name_en}</span>
+                          <span className="text-xs text-slate-500 block mt-0.5">{gov.name_ar}</span>
+                        </TableCell>
+                        <TableCell className="py-3">
+                          <Badge variant={gov.is_active ? "default" : "secondary"} className={`text-[11px] font-bold ${gov.is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-none' : ''}`}>
+                            {gov.is_active ? "Active" : "Inactive"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right py-3 space-x-2 rtl:space-x-reverse">
+                          <Button variant="outline" size="sm" className="h-9 rounded-xl font-bold text-slate-600" onClick={() => openGovEdit(gov)}>
+                            <Edit className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                          </Button>
+                          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl text-rose-500 hover:text-rose-600 hover:bg-rose-50" onClick={() => setDeleteItem({ type: 'gov', id: gov.id, name: gov.name_en })}>
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
+          )}
         </TabsContent>
 
         {/* ======================= TAB 3: ZONES ONLY ======================= */}
-      <TabsContent value="zones" className="space-y-4 mt-6">
-  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-background p-4 rounded-xl border shadow-sm gap-4 sm:gap-0">
-    <h2 className="text-lg font-semibold">Zones</h2>
-    <Button onClick={() => openZoneAdd()} className="w-full sm:w-auto">
-      <Plus className="w-4 h-4 mr-2" /> Add Zone
-    </Button>
-  </div>
+        <TabsContent value="zones" className="space-y-4 mt-16 animate-in fade-in duration-300">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm gap-4 sm:gap-0">
+            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <MapPin className="text-primary w-5 h-5" /> Zones List
+            </h2>
+            <Button onClick={() => openZoneAdd()} className="w-full sm:w-auto h-11 rounded-xl bg-primary hover:bg-primary/90 font-bold shadow-sm">
+              <Plus className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Add Zone
+            </Button>
+          </div>
 
-  {isLoading ? (
-    <div className="text-center py-10 bg-background border rounded-xl shadow-sm text-muted-foreground font-medium">
-      Loading zones...
-    </div>
-  ) : !isLoading && flatZonesList.length === 0 ? (
-    <div className="text-center py-10 bg-background border rounded-xl shadow-sm text-muted-foreground font-medium">
-      No zones found.
-    </div>
-  ) : (
-    <>
-      <div className="grid grid-cols-1 gap-4 md:hidden">
-        {flatZonesList.map((zone) => {
-          const parentGov = governoratesList.find((g) => g.id === zone.governorate_id);
-          return (
-            <div key={zone.id} className="bg-background border rounded-xl p-4 shadow-sm flex flex-col gap-3">
-              <div className="flex justify-between items-start border-b pb-3">
-                <div>
-                  <h3 className="font-bold text-base text-foreground">{zone.name_en}</h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">{zone.name_ar}</p>
-                </div>
-                <Badge variant={zone.is_active ? "outline" : "secondary"}>
-                  {zone.is_active ? "Active" : "Inactive"}
-                </Badge>
+          {isLoading && <div className="text-center py-12 text-slate-400 font-bold animate-pulse bg-white border border-slate-200/60 rounded-2xl shadow-sm">Loading zones...</div>}
+          {!isLoading && flatZonesList.length === 0 && <div className="text-center py-12 text-slate-500 font-bold bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl">No zones found.</div>}
+          
+          {!isLoading && flatZonesList.length > 0 && (
+            <>
+              {/* Mobile Zones Cards */}
+              <div className="grid grid-cols-1 gap-3 md:hidden">
+                {flatZonesList.map((zone) => {
+                  const parentGov = governoratesList.find((g) => g.id === zone.governorate_id);
+                  return (
+                    <div key={zone.id} className="bg-white border border-slate-200/60 rounded-xl p-4 shadow-sm flex flex-col gap-4">
+                      <div className="flex justify-between items-start border-b border-slate-50 pb-3">
+                        <div>
+                          <h3 className="font-bold text-[15px] text-slate-800 leading-tight">{zone.name_en}</h3>
+                          <p className="text-[12px] text-slate-500 mt-1">{zone.name_ar}</p>
+                        </div>
+                        <Badge variant={zone.is_active ? "outline" : "secondary"} className="text-[10px] font-bold">
+                          {zone.is_active ? "Active" : "Inactive"}
+                        </Badge>
+                      </div>
+                      
+                      <div className="flex justify-between items-end">
+                        <div className="flex flex-col bg-slate-50/80 px-3 py-2 rounded-lg border border-slate-100">
+                          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Governorate</span>
+                          <span className="text-[13px] font-bold text-slate-700">{parentGov?.name_en || "N/A"}</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" className="h-9 px-4 rounded-lg text-[12px] font-bold" onClick={() => openZoneEdit(zone)}>
+                            <Edit className="w-3.5 h-3.5 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                          </Button>
+                          <Button variant="destructive" size="icon" className="h-9 w-9 shrink-0 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border-none shadow-none" onClick={() => setDeleteItem({ type: 'zone', id: zone.id, name: zone.name_en })}>
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              
-              <div className="flex justify-between items-end">
-                <div className="flex flex-col">
-                  <span className="text-[11px] text-muted-foreground font-medium mb-0.5">Governorate</span>
-                  <span className="text-sm font-semibold">{parentGov?.name_en || "N/A"}</span>
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="h-9 px-3" onClick={() => openZoneEdit(zone)}>
-                    <Edit className="w-4 h-4 sm:mr-2" />
-                    <span className="hidden sm:inline">Edit</span>
-                  </Button>
-                  <Button variant="destructive" size="icon" className="h-9 w-9 shrink-0" onClick={() => setDeleteItem({ type: 'zone', id: zone.id, name: zone.name_en })}>
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
 
-      <div className="hidden md:block bg-background border rounded-xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto w-full">
-          <Table className="min-w-[600px]">
-            <TableHeader className="bg-muted/50">
-              <TableRow>
-                <TableHead className="whitespace-nowrap py-3">Zone (EN / AR)</TableHead>
-                <TableHead className="whitespace-nowrap py-3">Governorate</TableHead>
-                <TableHead className="py-3">Status</TableHead>
-                <TableHead className="text-right py-3">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {flatZonesList.map((zone) => {
-                const parentGov = governoratesList.find((g) => g.id === zone.governorate_id);
-                return (
-                  <TableRow key={zone.id} className="hover:bg-muted/30">
-                    <TableCell className="font-medium whitespace-nowrap py-3">
-                      {zone.name_en}
-                      <div className="text-xs text-muted-foreground mt-1">{zone.name_ar}</div>
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap py-3 font-medium">
-                      {parentGov?.name_en || "N/A"}
-                    </TableCell>
-                    <TableCell className="py-3">
-                      <Badge variant={zone.is_active ? "outline" : "secondary"}>
-                        {zone.is_active ? "Active" : "Inactive"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right py-3 whitespace-nowrap space-x-2 rtl:space-x-reverse">
-                      <Button variant="outline" size="sm" className="h-9" onClick={() => openZoneEdit(zone)}>
-                        <Edit className="w-4 h-4 mr-2" /> Edit
-                      </Button>
-                      <Button variant="destructive" size="icon" className="h-9 w-9" onClick={() => setDeleteItem({ type: 'zone', id: zone.id, name: zone.name_en })}>
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
-    </>
-  )}
-</TabsContent>
+              {/* Desktop Zones Table */}
+              <div className="hidden md:block bg-white border border-slate-200/60 rounded-2xl shadow-sm overflow-hidden">
+                <Table>
+                  <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+                    <TableRow className="hover:bg-transparent">
+                      <TableHead className="font-bold text-slate-600 py-4">Zone (EN / AR)</TableHead>
+                      <TableHead className="font-bold text-slate-600 py-4">Governorate</TableHead>
+                      <TableHead className="font-bold text-slate-600 py-4">Status</TableHead>
+                      <TableHead className="text-right font-bold text-slate-600 py-4">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {flatZonesList.map((zone) => {
+                      const parentGov = governoratesList.find((g) => g.id === zone.governorate_id);
+                      return (
+                        <TableRow key={zone.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+                          <TableCell className="font-medium py-3">
+                            <span className="text-slate-800 font-bold block">{zone.name_en}</span>
+                            <span className="text-xs text-slate-500 block mt-0.5">{zone.name_ar}</span>
+                          </TableCell>
+                          <TableCell className="py-3">
+                            <span className="bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg text-[13px] font-bold text-slate-700 inline-block">
+                              {parentGov?.name_en || "N/A"}
+                            </span>
+                          </TableCell>
+                          <TableCell className="py-3">
+                            <Badge variant={zone.is_active ? "outline" : "secondary"} className="text-[11px] font-bold">
+                              {zone.is_active ? "Active" : "Inactive"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right py-3 space-x-2 rtl:space-x-reverse">
+                            <Button variant="outline" size="sm" className="h-9 rounded-xl font-bold text-slate-600" onClick={() => openZoneEdit(zone)}>
+                              <Edit className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                            </Button>
+                            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl text-rose-500 hover:text-rose-600 hover:bg-rose-50" onClick={() => setDeleteItem({ type: 'zone', id: zone.id, name: zone.name_en })}>
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
+          )}
+        </TabsContent>
+        
       </Tabs>
 
       {/* ======================= GOVERNORATE MODAL ======================= */}
       <Dialog open={isGovModalOpen} onOpenChange={setIsGovModalOpen}>
-        <DialogContent className="w-[95vw] sm:max-w-[425px]">
+        <DialogContent className="w-[95vw]  sm:max-w-[425px]">
           <DialogHeader><DialogTitle>{selectedGov ? "Edit Governorate" : "Add Governorate"}</DialogTitle></DialogHeader>
           <form onSubmit={govForm.handleSubmit(onGovSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -12,7 +12,8 @@ import {
   Briefcase,
   Landmark,
   ShoppingCart,
-  Wallet
+  Wallet,
+  Sheet
 } from "lucide-react"
 
 import AccountInfo from "../shared/accountInfo"
@@ -72,32 +73,31 @@ export function NavbarManager() {
       ]
     },
     {
-    title: t("nav.purchases.title"), 
-    icon: ShoppingCart, 
-    items: [
-      { title: t("nav.purchases.items.suppliers.title"), href: "/manager/suppliers" }, 
-      { title: t("nav.purchases.items.invoices.title"), href: "/manager/purchases/invoices" }, 
-      { title: t("nav.purchases.items.new_invoice.title"), href: "/manager/purchases/new" },
-      { title: t("nav.purchases.items.supplier_transactions.title"), href: "/manager/purchases/transactions" } 
-    ]
-  } ,
-  {
-  title: t("nav.finance.title"), 
-  icon: Wallet,
-  items: [
-    { title: t("nav.finance.items.technicianProfiles.title"), href: "/manager/finance/technician-profiles" },
-    { title: t("nav.finance.items.technicianEarnings.title"), href: "/manager/finance/TechnicianEarnings" },
-    { title: t("nav.finance.items.technicianSettlement.title"), href: "/manager/finance/TechnicianSettlement" },
-    { title: t("nav.finance.items.settlementsHistory.title"), href: "/manager/finance/SettlementsHistory" },
-  ],
-}
-  ,
+      title: t("nav.purchases.title"), 
+      icon: ShoppingCart, 
+      items: [
+        { title: t("nav.purchases.items.suppliers.title"), href: "/manager/suppliers" }, 
+        { title: t("nav.purchases.items.invoices.title"), href: "/manager/purchases/invoices" }, 
+        { title: t("nav.purchases.items.new_invoice.title"), href: "/manager/purchases/new" },
+        { title: t("nav.purchases.items.supplier_transactions.title"), href: "/manager/purchases/transactions" } 
+      ]
+    },
+    {
+      title: t("nav.finance.title"), 
+      icon: Wallet,
+      items: [
+        { title: t("nav.finance.items.technicianProfiles.title"), href: "/manager/finance/technician-profiles" },
+        { title: t("nav.finance.items.technicianEarnings.title"), href: "/manager/finance/TechnicianEarnings" },
+        { title: t("nav.finance.items.technicianSettlement.title"), href: "/manager/finance/TechnicianSettlement" },
+        { title: t("nav.finance.items.settlementsHistory.title"), href: "/manager/finance/SettlementsHistory" },
+      ],
+    },
     { title: t("nav.bookings.title"), icon: Calendar, href: "/manager/bookings" },
     { title: t("nav.notifications.title"), icon: Bell, href: "/manager/notifications" },
-    { title: t("nav.assignments.title"),icon: ClipboardList , href: "/manager/assignments" },
+    { title: t("nav.assignments.title"), icon: ClipboardList , href: "/manager/assignments" },
     { title: t("nav.invoices.title"), icon: Receipt, href: "/manager/invoices" },
-    { title: t("nav.job.title"), icon: Briefcase, href: "/manager/job" }
-
+    { title: t("nav.job.title"), icon: Briefcase, href: "/manager/job" },
+    { title: t("nav.create-file.title"), icon: Sheet, href: "/manager/document-generator" }
   ]
 
   const toggleSubmenu = (title: string) => {
@@ -126,13 +126,13 @@ export function NavbarManager() {
           onClick={() => setIsMobileMenuOpen(false)}
           className={cn(
             "flex items-center transition-all duration-300 group overflow-hidden whitespace-nowrap hover:bg-white/10 hover:text-white",
-            collapsed ? "w-10 h-10 mx-auto justify-center rounded-xl px-0" : "gap-3 px-3.5 py-2.5 rounded-xl w-full",
+            collapsed ? "w-10 h-10 mx-auto justify-center rounded-xl px-0 mb-1" : "gap-2.5 px-3 py-2 rounded-xl w-full mb-0.5",
             isPathActive(section.href) ? "bg-white/10 text-white" : "text-white/70" 
           )}
           title={collapsed ? section.title : undefined}
         >
-          <Icon className="w-[18px] h-[18px] flex-shrink-0 transition-transform duration-300 group-hover:scale-110" strokeWidth={collapsed ? 2 : 1.75} />
-          <span className={cn("text-[13px] font-medium tracking-wide transition-all duration-300", collapsed ? "opacity-0 w-0 hidden" : "opacity-100")}>
+          <Icon className="w-[18px] h-[18px] flex-shrink-0 transition-transform duration-300 group-hover:scale-110" strokeWidth={collapsed ? 2.5 : 2} />
+          <span className={cn("text-[12px] font-medium tracking-wide transition-all duration-300", collapsed ? "opacity-0 w-0 hidden" : "opacity-100")}>
             {section.title}
           </span>
         </Link>
@@ -140,19 +140,19 @@ export function NavbarManager() {
     }
 
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col mb-0.5">
         <button 
           onClick={() => toggleSubmenu(section.title)}
           className={cn(
             "flex items-center transition-all duration-300 group overflow-hidden whitespace-nowrap hover:bg-white/10 hover:text-white",
             isOpen && !collapsed ? "text-white bg-white/10" : "text-white/70",
-            collapsed ? "w-10 h-10 mx-auto justify-center rounded-xl px-0" : "justify-between gap-3 px-3.5 py-2.5 rounded-xl w-full"
+            collapsed ? "w-10 h-10 mx-auto justify-center rounded-xl px-0 mb-1" : "justify-between gap-2.5 px-3 py-2 rounded-xl w-full"
           )}
           title={collapsed ? section.title : undefined}
         >
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <Icon className="w-[18px] h-[18px] transition-transform duration-300 group-hover:scale-110" strokeWidth={collapsed ? 2 : 1.75} />
-            <span className={cn("text-[13px] font-medium tracking-wide transition-all duration-300", collapsed ? "opacity-0 w-0 hidden" : "opacity-100")}>
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            <Icon className="w-[18px] h-[18px] transition-transform duration-300 group-hover:scale-110" strokeWidth={collapsed ? 2.5 : 2} />
+            <span className={cn("text-[12px] font-medium tracking-wide transition-all duration-300", collapsed ? "opacity-0 w-0 hidden" : "opacity-100")}>
               {section.title}
             </span>
           </div>
@@ -163,14 +163,14 @@ export function NavbarManager() {
 
         <div className={cn("grid transition-all duration-300 ease-in-out", isOpen && !collapsed ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
           <div className="overflow-hidden">
-            <div className={cn("flex flex-col gap-0.5 py-1.5", isRTL ? "pr-10 border-r border-white/10 mr-5" : "pl-10 border-l border-white/10 ml-5")}>
+            <div className={cn("flex flex-col gap-0.5 py-1", isRTL ? "pr-9 border-r border-white/10 mr-4" : "pl-9 border-l border-white/10 ml-4")}>
               {section.items?.map((item: any, i: number) => (
                 <Link
                   key={i}
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "text-[12px] font-medium hover:text-white hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap",
+                    "text-[11.5px] font-medium hover:text-white hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap",
                     isPathActive(item.href) ? "bg-white/10 text-white" : "text-white/50"
                   )}
                 >
@@ -186,60 +186,68 @@ export function NavbarManager() {
 
   return (
     <>
-      {/* 🔴 الشريط العلوي (يظهر على الموبايل والتابلت ويختفي على شاشات الكمبيوتر xl) */}
-      <header className="flex xl:hidden h-14 items-center justify-between bg-primary px-4 sticky top-0 z-50 w-full shadow-sm border-b border-white/5">
+      {/* ===================== Mobile / Tablet Header ===================== */}
+      <header className="flex xl:hidden h-14 items-center justify-between bg-primary px-4 sticky top-0 z-50 w-full shadow-sm border-b border-white/5 shrink-0">
         <div className="gap-3 flex flex-row items-center"> 
           <button onClick={() => setIsMobileMenuOpen(true)} className="text-white/70 hover:text-white transition-colors ml-1">
             <Menu size={22} />
           </button>
-          <Link href="/" className="flex text-2xl items-center font-semibold text-white">
+          <Link href="/" className="flex text-xl items-center font-bold text-white tracking-widest">
             EMPAPY
           </Link>
         </div>
-     
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
           <NotificationBell />
         </div>
       </header>
 
+      {/* ===================== Mobile Menu Overlay ===================== */}
       {isMobileMenuOpen && (
         <div className="xl:hidden fixed inset-0 z-[60] flex" dir={isRTL ? "rtl" : "ltr"}>
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setIsMobileMenuOpen(false)} />
-          <div className={cn("relative w-[260px] bg-primary h-full flex flex-col shadow-2xl transition-transform", isRTL ? "ml-auto" : "mr-auto")}>
-            <div className="flex items-center justify-between p-4 border-b border-white/10">
-              <span className="font-normal text-lg text-white tracking-wide">{t("managerPanel")}</span>
+          
+          <div className={cn("relative w-[280px] bg-primary h-full flex flex-col shadow-2xl transition-transform", isRTL ? "ml-auto" : "mr-auto")}>
+            {/* Header */}
+            <div className="flex items-center justify-between p-5 border-b border-white/10 shrink-0">
+              <span className="font-bold text-lg text-white tracking-wide">{t("managerPanel")}</span>
               <button onClick={() => setIsMobileMenuOpen(false)} className="text-white/50 hover:text-white bg-white/5 p-1.5 rounded-full hover:bg-white/10 transition-colors">
-                <X size={16} />
+                <X size={18} />
               </button>
             </div>
             
-            {/* التمرير باستخدام ScrollArea */}
-            <ScrollArea className="flex-1 w-full" dir={isRTL ? "rtl" : "ltr"}>
-              <div className="p-3 space-y-1">
+            {/* Scrollable Nav Area */}
+            <ScrollArea className="flex-1 w-full min-h-0" dir={isRTL ? "rtl" : "ltr"}>
+              <div className="p-3">
                 {navData.map((section, idx) => <NavItem key={idx} section={section} isMobile={true} />)}
               </div>
             </ScrollArea>
 
-            <div className="p-4 border-t border-white/10 mt-auto bg-white/5">
+            {/* Fixed Footer */}
+            <div className="p-4 border-t border-white/10 bg-black/10 shrink-0 mt-auto">
               <AccountInfo />
             </div>
           </div>
         </div>
       )}
 
+      {/* ===================== Desktop Sidebar ===================== */}
+      {/* 
+        h-screen & flex-col & shrink-0 ضرورية جداً مع min-h-0 في ال ScrollArea لضمان عمل ال Scroll 
+      */}
       <aside 
         dir={isRTL ? "rtl" : "ltr"}
         className={cn(
-          "hidden xl:flex flex-col h-screen sticky top-0 bg-primary transition-all duration-300 ease-in-out flex-shrink-0 z-40",
+          "hidden xl:flex flex-col h-screen sticky top-0 bg-primary transition-all duration-300 ease-in-out shrink-0 z-40",
           isRTL ? "border-l border-primary/20" : "border-r border-primary/20", 
-          isCollapsed ? "w-[63px]" : "w-[250px]" 
+          isCollapsed ? "w-[68px]" : "w-[250px]" // تم جعل العرض رفيع جداً (68px)
         )}
       >
-        <div className={cn("flex items-center h-16 flex-shrink-0 transition-all", isCollapsed ? "justify-center px-0" : "justify-between px-5")}>
-          <Link href="/manager" className={cn("flex items-center gap-2.5 overflow-hidden transition-all duration-300", isCollapsed && "hidden")}>
-            <img src="/photos/logo.png" alt="Logo" className="w-8 h-8 rounded-lg object-contain bg-white/10 p-1 border border-white/5" />
-            <span className="font-normal text-[15px] text-white tracking-tight whitespace-nowrap">
+        {/* Header - Shrink 0 */}
+        <div className={cn("flex items-center h-[64px] shrink-0 transition-all border-b border-white/5", isCollapsed ? "justify-center px-0" : "justify-between px-5")}>
+          <Link href="/manager" className={cn("flex items-center gap-3 overflow-hidden transition-all duration-300", isCollapsed && "hidden")}>
+            <img src="/photos/logo.png" alt="Logo" className="w-8 h-8 rounded-xl object-contain bg-white/10 p-1 border border-white/5 shadow-sm" />
+            <span className="font-bold text-[14px] text-white tracking-widest whitespace-nowrap">
               {t("managerPanel")}
             </span>
           </Link>
@@ -247,31 +255,40 @@ export function NavbarManager() {
           <button 
             onClick={() => setIsCollapsed(!isCollapsed)}
             className={cn(
-              "flex items-center justify-center w-7 h-7 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-all duration-300",
+              "flex items-center justify-center w-8 h-8 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-all duration-300",
               isCollapsed && "w-10 h-10 rounded-xl bg-white/5 border border-white/10 mx-auto hover:bg-white/10"
             )}
           >
-            {isCollapsed ? <Menu size={18} strokeWidth={2} /> : (isRTL ? <PanelRightClose size={16} /> : <PanelLeftClose size={16} />)}
+            {isCollapsed ? <Menu size={18} strokeWidth={2.5} /> : (isRTL ? <PanelRightClose size={18} /> : <PanelLeftClose size={18} />)}
           </button>
         </div>
 
-        {/* التمرير باستخدام ScrollArea */}
-        <ScrollArea className="flex-1 w-full" dir={isRTL ? "rtl" : "ltr"}>
-          <nav className="rounded-2xl px-3 space-y-1 pt-2 pb-4">
+        {/* Scrollable Nav Area - flex-1 & min-h-0 تضمن نجاح التمرير بنسبة 100% */}
+        <ScrollArea className="flex-1 w-full min-h-0" dir={isRTL ? "rtl" : "ltr"}>
+          <nav className="px-3 pt-3 pb-4">
             {navData.map((section, idx) => (
               <NavItem key={idx} section={section} />
             ))}
           </nav>
         </ScrollArea>
 
-        <div className="p-2 mt-auto">
+        {/* Fixed Footer (Notification, Language, Account) - Shrink 0 */}
+        <div className="shrink-0 p-3 mt-auto bg-primary z-10">
           <div className={cn(
-            "bg-white/5 border border-white/10 flex flex-col gap-3 transition-all duration-300",
-            isCollapsed ? "rounded-2xl py-3 justify-center items-center px-2" : "flex-row justify-between rounded-2xl p-4"
+            "bg-white/5 border border-white/10 flex transition-all duration-300",
+            isCollapsed 
+              ? "flex-col items-center gap-4 py-4 px-2 rounded-[18px]" // شكل طولي منسق أثناء الإغلاق بنفس الخلفية
+              : "flex-row justify-between items-center p-3 rounded-xl" // شكل أفقي جميل أثناء الفتح
           )}>
-              <NotificationBell />
+            <NotificationBell />
+            <LanguageSwitcher />
+            
+            {/* 
+              Account Info: يظهر دائماً.
+              في حالة الإغلاق، نقوم بإخفاء النصوص برمجياً لمنع تشوه التصميم وتبقى صورة الحساب (Avatar) 
+            */}
+        
               <AccountInfo />
-              <LanguageSwitcher /> 
           </div>
         </div>
       </aside>

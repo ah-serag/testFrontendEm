@@ -110,7 +110,7 @@ export default function JobExecutionsPage() {
 };
 
   return (
-    <div className="flex flex-col p-2" dir={locale === "ar" ? "rtl" : "ltr"}>
+    <div className="flex flex-col max-w-dvw p-2" dir={locale === "ar" ? "rtl" : "ltr"}>
       
       {/* Header */}
       <div className="flex flex-col md:flex-row rounded-2xl flex-wrap justify-between items-start md:items-center gap-5 bg-white p-4 border border-slate-200 shadow-sm m-3">

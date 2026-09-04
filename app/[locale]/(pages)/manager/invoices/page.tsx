@@ -142,7 +142,7 @@ export default function InvoicesPage() {
   };
 
   return (
-    <div className="p-4 md:p-6 pl-3 space-y-6 min-h-screen text-slate-900 bg-[#f8fafc] w-full overflow-hidden">
+    <div className="p-4 md:p-6 pl-3 space-y-6 min-h-screen max-w-dvw text-slate-900 bg-[#f8fafc] w-full overflow-hidden">
       
       {/* Header */}
       <div className="flex flex-row  md:flex-row flex-wrap items-center  justify-between  md:items-center gap-4 bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm">

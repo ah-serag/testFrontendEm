@@ -96,7 +96,7 @@ export default function TechnicianSettlementPage() {
   };
 
   return (
-    <div className="flex flex-col p-4 md:p-6 min-h-[calc(100vh-4rem)] w-full overflow-hidden bg-slate-50/50 text-slate-800" dir="rtl">
+    <div className="flex flex-col max-w-dvw p-4 md:p-6 min-h-[calc(100vh-4rem)] w-full overflow-hidden bg-slate-50/50 text-slate-800" dir="rtl">
       
       {/* ===================== Header ===================== */}
       <div className="flex flex-col md:flex-row bg-primary rounded-2xl justify-between items-start md:items-center gap-5 p-5 md:p-6 shadow-sm border border-slate-200/80 mb-5 w-full">
@@ -135,7 +135,7 @@ export default function TechnicianSettlementPage() {
               <SelectContent className="rounded-xl max-h-[300px]" dir="rtl">
                 {filteredUsers.length > 0 ? (
                   filteredUsers.map((tech: any) => (
-                    <SelectItem key={tech.id} value={tech.id.toString()} className="text-right py-3 font-semibold text-sm cursor-pointer">
+                    <SelectItem key={tech.id} value={tech.id.toString()} className="text-right py-3 font-normal  text-sm cursor-pointer">
                       {tech.full_name || tech.name}
                     </SelectItem>
                   ))
@@ -171,10 +171,10 @@ export default function TechnicianSettlementPage() {
           <div className="flex-1 w-full flex flex-col gap-6">
             
             {/* أ. شريط بحث المهام (جديد ومميز) */}
-            <div className="flex justify-between items-end gap-4 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+            <div className="flex flex-col md:flex-row justify-between items-end gap-4 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
               <div>
                 <h2 className="font-extrabold text-lg text-slate-800 flex items-center gap-2">
-                  <Briefcase className="w-5 h-5 text-primary" /> تفاصيل الزيارات والمهام ({summary.visits_count})
+                  <Briefcase className="w-5 h-5 text-md font-normal text-primary" /> تفاصيل الزيارات والمهام ({summary.visits_count})
                 </h2>
               </div>
               <div className="relative w-full max-w-xs">
@@ -285,7 +285,7 @@ export default function TechnicianSettlementPage() {
                 className="w-full h-12 rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-primary font-bold text-sm shadow-sm transition-all"
               >
                 <FileText className="w-4 h-4 ml-2" />
-                تحميل / طباعة كشف الحساب (PDF)
+                تحميل (PDF)
               </Button>
             </div>
             
@@ -303,7 +303,7 @@ export default function TechnicianSettlementPage() {
 
 
 
-//
+
       <Dialog open={isSettleModalOpen} onOpenChange={setIsSettleModalOpen}>
         <DialogContent className="w-[92vw] sm:max-w-[450px] rounded-3xl p-0 overflow-hidden border-0 shadow-2xl" dir="rtl">
           <DialogHeader className="bg-slate-800 px-6 py-5 text-right m-0">

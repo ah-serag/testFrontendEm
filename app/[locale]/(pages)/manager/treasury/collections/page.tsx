@@ -80,7 +80,7 @@ export default function CollectionsLedgerPage() {
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-9xl mx-auto space-y-5">
+    <div className="p-4 md:p-6 max-w-dvw mx-auto space-y-5">
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-white shadow-md  text-green-800 flex items-center justify-center">
@@ -219,84 +219,111 @@ export default function CollectionsLedgerPage() {
       )}
 
       {/* ================= Remit Modal ================= */}
-      <Dialog open={!!selectedCollection} onOpenChange={(open) => !open && setSelectedCollection(null)}>
-        <DialogContent aria-describedby={undefined} className="sm:max-w-[420px]   p-0 rounded-[2rem] overflow-x-hidden   border-0 bg-slate-50 shadow-2xl">
-          <div className="bg-emerald-900 text-white p-7 relative">
-            <DialogTitle className="flex items-center gap-2.5 text-lg font-normal">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                <Wallet className="text-emerald-400 w-5 h-5" />
+   <Dialog open={!!selectedCollection} onOpenChange={(open) => !open && setSelectedCollection(null)}>
+        <DialogContent aria-describedby={undefined} className="sm:max-w-[420px] p-0 rounded-2xl sm:rounded-[2rem] overflow-hidden border-0 bg-slate-50 shadow-2xl flex flex-col max-h-[90vh]">
+          
+          {/* Header - Fixed */}
+          <div className="bg-emerald-900 text-white p-5 sm:p-7 shrink-0 z-10">
+            <DialogTitle className="flex items-center gap-2.5 text-base sm:text-lg font-bold">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
+                <Wallet className="text-emerald-400 w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               {t("modal.title")}
             </DialogTitle>
-            <div className="mt-5 bg-emerald-800/80 rounded-2xl p-4 border border-emerald-700/50 flex justify-between items-center shadow-inner">
-              <span className="text-[13px] text-emerald-100 font-medium">{t("modal.requiredAmount")}</span>
-              <span className="font-mono font-bold text-2xl text-white">
+            <div className="mt-4 sm:mt-5 bg-emerald-800/80 rounded-xl p-3 sm:p-4 border border-emerald-700/50 flex justify-between items-center shadow-inner">
+              <span className="text-[12px] sm:text-[13px] text-emerald-100 font-bold">{t("modal.requiredAmount")}</span>
+              <span className="font-mono font-bold text-xl sm:text-2xl text-white">
                 {selectedCollection ? Number(selectedCollection.amount).toLocaleString() : 0} ج
               </span>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit(handleRemit)} className="p-7 space-y-6 -mt-6 bg-slate-50 rounded-t-[2rem] relative z-20">
-            
-            <div className="space-y-2.5">
-              <label className="text-[13px] font-bold text-slate-700 flex items-center gap-1">{t("modal.actualAmount")} <span className="text-rose-500">*</span></label>
-              <div className="relative">
-                <Input 
-                  type="number" 
-                  step="0.01" 
-                  {...register("amount")}
-                  className="h-12 pl-14 px-4 rounded-xl text-lg font-mono font-bold text-right border-slate-200 bg-white focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500 shadow-sm"
-                />
-                <div className="absolute left-1.5 top-1.5 bottom-1.5 flex items-center justify-center bg-slate-50 px-3 rounded-lg border border-slate-100 text-slate-500 font-bold text-[13px]">
-                  ج.م
-                </div>
-              </div>
-              {errors.amount && <p className="text-[11px] text-rose-500 font-bold">{errors.amount.message as string}</p>}
+          {/* Form Content - Scrollable */}
+          <div className="flex-1 overflow-y-auto bg-slate-50 -mt-4 sm:-mt-6 rounded-t-2xl sm:rounded-t-[2rem] relative z-20">
+            <form id="remit-form" onSubmit={handleSubmit(handleRemit)} className="p-5 sm:p-7 space-y-5">
               
-              {Number(watchAmount) > (selectedCollection?.amount || 0) && (
-                <p className="text-[11px] text-rose-500 font-bold bg-rose-50 p-2 rounded-md mt-1 border border-rose-100">
-                  {t("modal.warningExcess")}
-                </p>
-              )}
-            </div>
+              <div className="space-y-2">
+                <label className="text-[12px] sm:text-[13px] font-bold text-slate-700 flex items-center gap-1">
+                  {t("modal.actualAmount")} <span className="text-rose-500">*</span>
+                </label>
+                <div className="relative">
+                  <Input 
+                    type="number" 
+                    step="0.01" 
+                    {...register("amount")}
+                    className="h-11 sm:h-12 pl-12 sm:pl-14 px-3 sm:px-4 rounded-xl text-base sm:text-lg font-mono font-bold text-right border-slate-200 bg-white focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500 shadow-sm transition-all"
+                  />
+                  <div className="absolute left-1.5 top-1.5 bottom-1.5 flex items-center justify-center bg-slate-50 px-2 sm:px-3 rounded-lg border border-slate-100 text-slate-500 font-bold text-[11px] sm:text-[13px]">
+                    ج.م
+                  </div>
+                </div>
+                {errors.amount && <p className="text-[10px] sm:text-[11px] text-rose-500 font-bold">{errors.amount.message as string}</p>}
+                
+                {Number(watchAmount) > (selectedCollection?.amount || 0) && (
+                  <p className="text-[10px] sm:text-[11px] text-rose-500 font-bold bg-rose-50 p-2 rounded-lg mt-1 border border-rose-100">
+                    {t("modal.warningExcess")}
+                  </p>
+                )}
+              </div>
 
-            {/* 🔴 الحقل المضاف للاستلام والمربوط بالمكون AccountSelect */}
-            <div className="space-y-2.5">
-              <label className="text-[13px] font-bold text-slate-700 flex items-center gap-1">حساب استلام العهدة <span className="text-rose-500">*</span></label>
-              <div className={errors.account_id ? "rounded-xl ring-2 ring-rose-500/30 border border-rose-500 overflow-hidden" : ""}>
-                <AccountSelect 
-                  value={watchAccountId}
-                  onChange={(val: string) => setValue("account_id", val, { shouldValidate: true })} 
+              <div className="space-y-2">
+                <label className="text-[12px] sm:text-[13px] font-bold text-slate-700 flex items-center gap-1">
+                  حساب استلام العهدة <span className="text-rose-500">*</span>
+                </label>
+                <div className={errors.account_id ? "rounded-xl ring-2 ring-rose-500/30 border border-rose-500 overflow-hidden" : ""}>
+                  <AccountSelect 
+                    value={watchAccountId}
+                    onChange={(val: string) => setValue("account_id", val, { shouldValidate: true })} 
+                  />
+                </div>
+                {errors.account_id && <p className="text-[10px] sm:text-[11px] text-rose-500 font-bold">{errors.account_id.message as string}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[12px] sm:text-[13px] font-bold text-slate-700 flex items-center gap-1">
+                  {t("modal.targetSafe")} <span className="text-rose-500">*</span>
+                </label>
+                <div className={errors.target_safe_id ? "rounded-xl ring-2 ring-rose-500/30 border border-rose-500 overflow-hidden" : ""}>
+                  <CompanySafeSelect 
+                    value={watchTargetSafeId}
+                    onChange={(val: any) => setValue("target_safe_id", val, { shouldValidate: true })} 
+                  />
+                </div>
+                {errors.target_safe_id && <p className="text-[10px] sm:text-[11px] text-rose-500 font-bold">{errors.target_safe_id.message as string}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[12px] sm:text-[13px] font-bold text-slate-700">{t("modal.notes")}</label>
+                <Textarea 
+                  {...register("notes")} 
+                  className="h-20 sm:h-24 rounded-xl bg-white border-slate-200 text-[12px] sm:text-[13px] resize-none p-3 sm:p-4 focus-visible:ring-emerald-500/30 transition-all" 
+                  placeholder={t("modal.notesPlaceholder")} 
                 />
               </div>
-              {errors.account_id && <p className="text-[11px] text-rose-500 font-bold">{errors.account_id.message as string}</p>}
-            </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[13px] font-bold text-slate-700 flex items-center gap-1">{t("modal.targetSafe")} <span className="text-rose-500">*</span></label>
-              <div className={errors.target_safe_id ? "rounded-xl ring-2 ring-rose-500/30 border border-rose-500 overflow-hidden" : ""}>
-                <CompanySafeSelect 
-                  value={watchTargetSafeId}
-                  onChange={(val: any) => setValue("target_safe_id", val, { shouldValidate: true })} 
-                />
-              </div>
-              {errors.target_safe_id && <p className="text-[11px] text-rose-500 font-bold">{errors.target_safe_id.message as string}</p>}
-            </div>
+            </form>
+          </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[13px] font-bold text-slate-700">{t("modal.notes")}</label>
-              <Textarea {...register("notes")} className="h-20 rounded-2xl bg-white border-slate-200 text-[13px] resize-none p-4 focus-visible:ring-emerald-500/30" placeholder={t("modal.notesPlaceholder")} />
-            </div>
+          {/* Footer Actions - Fixed */}
+          <div className="bg-white border-t border-slate-100 p-4 sm:p-5 flex flex-col sm:flex-row gap-2.5 sm:gap-3 shrink-0 z-10">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => setSelectedCollection(null)} 
+              className="w-full sm:w-1/3 h-11 sm:h-12 rounded-xl text-[13px] sm:text-[14px] text-slate-600 font-bold bg-white border-slate-200 hover:bg-slate-50 transition-all order-2 sm:order-1"
+            >
+              {t("modal.cancel")}
+            </Button>
+            <Button 
+              type="submit" 
+              form="remit-form"
+              disabled={isRemitting || !watchAmount || Number(watchAmount) <= 0} 
+              className="w-full sm:flex-1 h-11 sm:h-12 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[13px] sm:text-[14px] shadow-md transition-all active:scale-[0.98] order-1 sm:order-2"
+            >
+              {isRemitting ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : <><ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 ml-1.5" /> {t("modal.confirm")}</>}
+            </Button>
+          </div>
 
-            <div className="pt-2 flex gap-3">
-              <Button type="button" variant="outline" onClick={() => setSelectedCollection(null)} className="w-1/3 h-12 rounded-2xl text-[14px] text-slate-600 font-bold bg-white">
-                {t("modal.cancel")}
-              </Button>
-              <Button type="submit" disabled={isRemitting || !watchAmount || Number(watchAmount) <= 0} className="flex-1 h-12 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[14px] shadow-lg">
-                {isRemitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><ShieldCheck className="w-5 h-5 ml-2" /> {t("modal.confirm")}</>}
-              </Button>
-            </div>
-          </form>
         </DialogContent>
       </Dialog>
     </div>

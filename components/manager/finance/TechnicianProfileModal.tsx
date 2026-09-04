@@ -99,8 +99,8 @@ export default function TechnicianProfileModal({ open, onOpenChange, profile }: 
               </SelectTrigger>
               <SelectContent className="rounded-xl border-slate-200 max-w-fit shadow-xl max-h-[250px]" dir="rtl">
                 {usersList.map((u: any) => (
-                  <SelectItem key={u.id} value={u.id.toString()} className="text-right font-semibold focus:bg-slate-50">
-                    {u.full_name} <span className="text-slate-400 font-normal text-[11px] mr-2">({u.email})</span>
+                  <SelectItem key={u.id} value={u.id.toString()} className="text-right font-normal focus:bg-slate-50">
+                    {u.full_name}
                   </SelectItem>
                 ))}
               </SelectContent>

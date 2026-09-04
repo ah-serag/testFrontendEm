@@ -117,7 +117,7 @@ const getTypeUI = (type: string) => {
     }
   };
   return (
-    <div className="flex flex-col p-2" dir={isRTL ? "rtl" : "ltr"}>
+    <div className="flex flex-col max-w-dvw p-2" dir={isRTL ? "rtl" : "ltr"}>
       
       {/* ================= Header ================= */}
       <div className="flex flex-col md:flex-row rounded-2xl flex-wrap justify-between items-start md:items-center gap-5 bg-primary  p-4 border border-gray-500 shadow-sm m-3">

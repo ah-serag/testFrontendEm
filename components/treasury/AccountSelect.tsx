@@ -70,13 +70,11 @@ export default function AccountSelect({
               key={acc.id} 
               value={String(acc.id)} 
               dir="rtl"
-              className="rounded-lg font-medium cursor-pointer focus:bg-slate-50"
+              className="rounded-lg font-normal cursor-pointer focus:bg-slate-50"
             >
               <div className="flex items-center gap-2">
                 <span className="text-slate-800">{acc.name}</span>
-                <span className="text-[10px] bg-slate-100 text-slate-500 border border-slate-200 px-1.5 py-0.5 rounded font-mono">
-                  {acc.code}
-                </span>
+
               </div>
             </SelectItem>
           ))

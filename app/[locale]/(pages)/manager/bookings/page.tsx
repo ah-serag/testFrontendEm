@@ -194,7 +194,7 @@ export default function BookingsPage() {
 
   return (
 
-     <div className="flex flex-col p-2">
+     <div className="flex flex-col max-w-dvw p-2">
     <div className="flex flex-col md:flex-row rounded-2xl flex-wrap justify-between items-start md:items-center gap-5 bg-white p-3  border border-gray-200 shadow-md m-3">
   
   <div className="flex    items-center gap-4">

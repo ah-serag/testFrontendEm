@@ -55,7 +55,7 @@ export default function SuppliersPage() {
   };
 
   return (
-    <div className="flex flex-col p-2 lg:p-4 min-h-screen bg-slate-50/50" dir={isRTL ? "rtl" : "ltr"}>
+    <div className="flex flex-col p-2 lg:p-4 max-w-dvw min-h-screen bg-slate-50/50" dir={isRTL ? "rtl" : "ltr"}>
       
       {/* ================= HEADER ================= */}
       <div className="flex flex-col md:flex-row bg-primary rounded-2xl flex-wrap justify-between items-start md:items-center gap-5 p-5 sm:p-6 shadow-md mb-6">

@@ -25,7 +25,8 @@ export default function SupplierSelect({ value, onChange, error, disabled }: Sup
         onValueChange={(val) => onChange(Number(val))}
       >
         <SelectTrigger 
-          className={`w-full rounded-xl px-4 h-12 bg-slate-50 border-slate-200 shadow-sm focus:ring-2 focus:ring-primary/20 ${error ? 'border-red-400 ring-red-100' : ''}`}
+        dir="rtl"
+          className={`w-full rounded-xl px-4 py-7 h-12 bg-slate-50 border-slate-200 shadow-sm focus:ring-2 focus:ring-primary/20 ${error ? 'border-red-400 ring-red-100' : ''}`}
         >
           {isLoading ? (
             <div className="flex items-center text-slate-400 text-sm">

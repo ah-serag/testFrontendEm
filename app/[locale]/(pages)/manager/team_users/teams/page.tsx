@@ -88,7 +88,7 @@ export default function TeamsManagementPage() {
   }
 
   return (
-    <div className="space-y-6 w-full p-4 md:p-6 max-w-full overflow-hidden bg-slate-50/50 min-h-screen">
+    <div className="space-y-6 w-full max-w-dvw p-4 md:p-6  overflow-hidden bg-slate-50/50 min-h-screen">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm">

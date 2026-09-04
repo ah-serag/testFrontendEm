@@ -152,11 +152,11 @@ export default function CategoriesAndServicesPage() {
   }
 
   return (
-    <div className="space-y-6 p-4 md:p-8 w-full max-w-full overflow-hidden bg-slate-50/50 min-h-screen">
+    <div className="space-y-6 p-4 md:p-8 w-full max-w-dvw overflow-hidden bg-slate-50/50 min-h-screen">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex text-primary items-center gap-2">
             <FolderTree className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
             Categories & Services
           </h1>
@@ -164,119 +164,148 @@ export default function CategoriesAndServicesPage() {
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        {/* Mobile Scrollable Tabs */}
-        <div className="   pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 w-full scrollbar-hide">
-          <TabsList className=" flex-col w-max flex-wrap min-w-full h-11 bg-white border shadow-sm rounded-lg">
-            <TabsTrigger value="all" className="flex-1  px-6"><FolderTree className="w-4 h-4 mr-2"/> All</TabsTrigger>
-            <TabsTrigger value="categories" className="flex-1  px-6"><Layers className="w-4 h-4 mr-2"/> Categories</TabsTrigger>
-            <TabsTrigger value="services" className="flex-1  px-6"><Wrench className="w-4 h-4 mr-2"/> Services</TabsTrigger>
+  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-20 mt-20">
+        
+        {/* ======================= TABS HEADER (Mobile: Col, Desktop: Row) ======================= */}
+        <div className="w-full mb-6">
+          <TabsList className="flex flex-col sm:flex-row w-full h-auto p-1.5 bg-slate-100/80 border border-slate-200/60 rounded-2xl gap-1.5">
+            <TabsTrigger 
+              value="all" 
+              className="w-full sm:flex-1 py-3 sm:py-2.5 h-auto sm:h-10 flex justify-center items-center rounded-xl text-[13px] font-bold shadow-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all"
+            >
+              <FolderTree className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" /> All
+            </TabsTrigger>
+            <TabsTrigger 
+              value="categories" 
+              className="w-full sm:flex-1 py-3 sm:py-2.5 h-auto sm:h-10 flex justify-center items-center rounded-xl text-[13px] font-bold shadow-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all"
+            >
+              <Layers className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" /> Categories
+            </TabsTrigger>
+            <TabsTrigger 
+              value="services" 
+              className="w-full sm:flex-1 py-3 sm:py-2.5 h-auto sm:h-10 flex justify-center items-center rounded-xl text-[13px] font-bold shadow-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all"
+            >
+              <Wrench className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" /> Services
+            </TabsTrigger>
           </TabsList>
         </div>
 
         {/* ======================= TAB 1: ALL ======================= */}
-        <TabsContent value="all" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6 w-full">
-          {isLoading && <div className="text-center py-8">Loading data...</div>}
-          {!isLoading && categoriesList.length === 0 && <div className="text-center py-8 text-muted-foreground">No data found.</div>}
+        <TabsContent value="all" className="space-y-4 animate-in mt-16 fade-in duration-300 w-full">
+          {isLoading && (
+            <div className="text-center py-12 text-slate-400 font-bold animate-pulse bg-white border border-slate-200/60 rounded-2xl shadow-sm">
+              Loading data...
+            </div>
+          )}
+          {!isLoading && categoriesList.length === 0 && (
+            <div className="text-center py-12 text-slate-500 font-bold bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl">
+              No data found.
+            </div>
+          )}
           
           {categoriesList.map((cat) => {
             const isExpanded = expandedCats.includes(cat.id);
             return (
-              <div key={cat.id} className="bg-white border shadow-sm p-4 overflow-hidden rounded-xl">
+              <div key={cat.id} className="bg-white border border-slate-200/60 shadow-sm rounded-2xl overflow-hidden transition-all hover:shadow-md">
+                
                 {/* Category Header */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-0">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 sm:p-5">
                   <div 
                     className="flex-1 flex items-center gap-3 cursor-pointer group w-full"
                     onClick={() => toggleCat(cat.id)}
                   >
-                    <div className="text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 bg-slate-100 p-1.5 rounded-md">
+                    <div className="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:bg-primary/10 transition-colors shrink-0 border border-slate-100">
                       {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-bold flex flex-wrap items-center gap-2 truncate">
+                      <h3 className="text-[15px] sm:text-base font-bold flex flex-wrap items-center gap-2 text-slate-800 leading-tight truncate">
                         {cat.name_en} 
-                        <Badge variant={cat.is_active ? "default" : "secondary"} className="text-[10px] whitespace-nowrap h-5">
+                        <Badge variant={cat.is_active ? "default" : "secondary"} className={`text-[10px] font-bold px-2 py-0.5 rounded-md h-5 whitespace-nowrap ${cat.is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-none' : ''}`}>
                           {cat.is_active ? "Active" : "Inactive"}
                         </Badge>
                       </h3>
-                      <p className="text-muted-foreground text-xs truncate">{cat.name_ar}</p>
+                      <p className="text-slate-500 text-[12px] sm:text-[13px] mt-0.5 font-medium truncate">{cat.name_ar}</p>
                     </div>
                   </div>
 
-                  {/* Category Actions - Mobile: Full width buttons, Desktop: Row buttons */}
-                  <div className="flex gap-2 w-full md:w-auto mt-2 md:mt-0">
-                    <Button variant="outline" size="sm" onClick={() => openCatEdit(cat)} className="flex-1 md:flex-none">
-                      <Edit className="w-4 h-4 md:mr-2" /> <span className="hidden md:inline">Edit Cat.</span>
+                  {/* Category Actions */}
+                  <div className="flex gap-2 w-full md:w-auto mt-2 md:mt-0 pl-12 rtl:pl-0 rtl:pr-12 md:pl-0 md:rtl:pr-0">
+                    <Button variant="outline" size="sm" onClick={() => openCatEdit(cat)} className="flex-1 md:flex-none h-10 rounded-xl border-slate-200 text-slate-600 hover:text-primary">
+                      <Edit className="w-4 h-4 md:mr-1.5 md:rtl:ml-1.5 md:rtl:mr-0" /> <span className="hidden md:inline font-bold">Edit Cat.</span>
                     </Button>
-                    <Button size="sm" onClick={() => openSrvAdd(cat.id)} className="flex-1 md:flex-none">
-                      <Plus className="w-4 h-4 md:mr-2" /> <span className="hidden md:inline">Add Service</span>
+                    <Button size="sm" onClick={() => openSrvAdd(cat.id)} className="flex-1 md:flex-none h-10 rounded-xl bg-primary text-white hover:bg-primary/90 font-bold">
+                      <Plus className="w-4 h-4 md:mr-1.5 md:rtl:ml-1.5 md:rtl:mr-0" /> <span className="hidden md:inline">Add Service</span>
                     </Button>
                   </div>
                 </div>
 
+                {/* Expanded Services Content */}
                 {isExpanded && (
-                  <div className="mt-4 pt-4 border-t border-slate-100 w-full">
+                  <div className="bg-slate-50/50 border-t border-slate-100 p-4 sm:p-5 animate-in slide-in-from-top-2 w-full">
                     {cat.services && cat.services.length > 0 ? (
                       <>
                         {/* 📱 MOBILE VIEW: SERVICE CARDS */}
                         <div className="grid grid-cols-1 gap-3 md:hidden">
                           {cat.services.map((srv: any) => (
-                            <div key={srv.id} className="bg-slate-50 border rounded-lg p-3.5 flex flex-col gap-2">
+                            <div key={srv.id} className="bg-white border border-slate-200/60 rounded-xl p-4 shadow-sm flex flex-col gap-3">
                               <div className="flex justify-between items-start">
                                 <div>
-                                  <h4 className="font-bold text-sm text-slate-800">{srv.name_en}</h4>
-                                  <p className="text-xs text-muted-foreground">{srv.name_ar}</p>
+                                  <h4 className="font-bold text-[14px] text-slate-800 leading-tight">{srv.name_en}</h4>
+                                  <p className="text-[12px] text-slate-500 mt-0.5">{srv.name_ar}</p>
                                 </div>
-                                <Badge variant={srv.is_active ? "outline" : "secondary"} className="text-[10px] bg-white">
+                                <Badge variant={srv.is_active ? "outline" : "secondary"} className="text-[10px] font-bold">
                                   {srv.is_active ? "Active" : "Inactive"}
                                 </Badge>
                               </div>
-                              <div className="flex justify-between items-center text-sm mt-1">
-                                <span className="font-mono font-bold text-primary">{srv.base_price} ج.م</span>
-                                <span className="text-muted-foreground text-xs">{srv.duration_hours} hrs</span>
+                              
+                              <div className="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-100 mt-1">
+                                <span className="font-mono font-bold text-primary text-[14px]">{srv.base_price} ج.م</span>
+                                <span className="text-[12px] text-slate-500 font-medium">{srv.duration_hours} hrs</span>
                               </div>
                               
-                              {/* زر العمولة واخد العرض كله في الموبايل */}
-                              {renderCommissionBadge(srv, true)}
+                              <div className="mt-1">
+                                {renderCommissionBadge(srv, true)}
+                              </div>
 
-                              <div className="flex gap-2 pt-3 mt-1 border-t border-slate-200 border-dashed">
-                                <Button variant="ghost" size="sm" className="flex-1 h-8 bg-white border" onClick={() => openSrvEdit(srv)}>
-                                  <Edit className="w-3.5 h-3.5 mr-2" /> Edit
+                              <div className="flex gap-2 pt-3 mt-1 border-t border-slate-50">
+                                <Button variant="outline" size="sm" className="flex-1 h-9 rounded-lg text-[12px] font-bold" onClick={() => openSrvEdit(srv)}>
+                                  <Edit className="w-3.5 h-3.5 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
                                 </Button>
-                                <Button variant="ghost" size="sm" className="flex-1 h-8 bg-white border text-destructive hover:text-destructive hover:bg-red-50" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}>
-                                  <Trash2 className="w-3.5 h-3.5 mr-2" /> Delete
+                                <Button variant="destructive" size="sm" className="flex-1 h-9 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border-none shadow-none font-bold text-[12px]" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}>
+                                  <Trash2 className="w-3.5 h-3.5 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Delete
                                 </Button>
                               </div>
                             </div>
                           ))}
                         </div>
 
-                        {/* 💻 DESKTOP VIEW: TABLE */}
-                        <div className="hidden md:block overflow-x-auto w-full">
+                        {/* 💻 DESKTOP VIEW: SERVICE TABLE */}
+                        <div className="hidden md:block bg-white border border-slate-200/60 rounded-xl overflow-hidden shadow-sm w-full">
                           <Table>
-                            <TableHeader className="bg-slate-50 rounded-t-lg">
-                              <TableRow>
-                                <TableHead className="whitespace-nowrap">Service (EN)</TableHead>
-                                <TableHead className="whitespace-nowrap">Service (AR)</TableHead>
-                                <TableHead className="whitespace-nowrap">Price (ج.م)</TableHead>
-                                <TableHead className="whitespace-nowrap">Commission</TableHead>
-                                <TableHead className="whitespace-nowrap">Duration</TableHead>
-                                <TableHead className="whitespace-nowrap">Status</TableHead>
-                                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
+                            <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+                              <TableRow className="hover:bg-transparent">
+                                <TableHead className="font-bold text-slate-600 py-3 whitespace-nowrap">Service (EN / AR)</TableHead>
+                                <TableHead className="font-bold text-slate-600 py-3 whitespace-nowrap">Price (ج.م)</TableHead>
+                                <TableHead className="font-bold text-slate-600 py-3 whitespace-nowrap">Commission</TableHead>
+                                <TableHead className="font-bold text-slate-600 py-3 whitespace-nowrap">Duration</TableHead>
+                                <TableHead className="font-bold text-slate-600 py-3 whitespace-nowrap">Status</TableHead>
+                                <TableHead className="text-right font-bold text-slate-600 py-3 whitespace-nowrap">Actions</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
                               {cat.services.map((srv: any) => (
-                                <TableRow key={srv.id}>
-                                  <TableCell className="font-medium whitespace-nowrap">{srv.name_en}</TableCell>
-                                  <TableCell className="whitespace-nowrap text-muted-foreground">{srv.name_ar}</TableCell>
-                                  <TableCell className="whitespace-nowrap font-mono">{srv.base_price}</TableCell>
-                                  <TableCell className="whitespace-nowrap">{renderCommissionBadge(srv)}</TableCell>
-                                  <TableCell className="whitespace-nowrap">{srv.duration_hours} hrs</TableCell>
-                                  <TableCell className="whitespace-nowrap"><Badge variant={srv.is_active ? "outline" : "secondary"}>{srv.is_active ? "Active" : "Inactive"}</Badge></TableCell>
-                                  <TableCell className="text-right space-x-2 whitespace-nowrap">
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-primary hover:bg-primary/10" onClick={() => openSrvEdit(srv)}><Edit className="w-4 h-4" /></Button>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}><Trash2 className="w-4 h-4" /></Button>
+                                <TableRow key={srv.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+                                  <TableCell className="font-medium py-3 whitespace-nowrap">
+                                    <span className="text-slate-800 font-bold block">{srv.name_en}</span>
+                                    <span className="text-xs text-slate-500 block mt-0.5">{srv.name_ar}</span>
+                                  </TableCell>
+                                  <TableCell className="whitespace-nowrap font-mono font-bold text-primary py-3">{srv.base_price}</TableCell>
+                                  <TableCell className="whitespace-nowrap py-3">{renderCommissionBadge(srv)}</TableCell>
+                                  <TableCell className="whitespace-nowrap text-slate-600 font-medium py-3">{srv.duration_hours} hrs</TableCell>
+                                  <TableCell className="whitespace-nowrap py-3"><Badge variant={srv.is_active ? "outline" : "secondary"} className="text-[10px] font-bold">{srv.is_active ? "Active" : "Inactive"}</Badge></TableCell>
+                                  <TableCell className="text-right py-3 space-x-2 rtl:space-x-reverse whitespace-nowrap">
+                                    <Button variant="ghost" size="sm" className="h-8 rounded-lg text-slate-600 hover:text-primary hover:bg-primary/5 font-bold" onClick={() => openSrvEdit(srv)}><Edit className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit</Button>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-50" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}><Trash2 className="w-4 h-4" /></Button>
                                   </TableCell>
                                 </TableRow>
                               ))}
@@ -285,7 +314,7 @@ export default function CategoriesAndServicesPage() {
                         </div>
                       </>
                     ) : (
-                      <div className="text-center py-4 text-xs text-muted-foreground bg-slate-50 border border-dashed rounded-lg">
+                      <div className="text-center py-6 text-[13px] font-medium text-slate-400 bg-white border border-dashed border-slate-200 rounded-xl">
                         No services linked to this category yet.
                       </div>
                     )}
@@ -297,58 +326,78 @@ export default function CategoriesAndServicesPage() {
         </TabsContent>
 
         {/* ======================= TAB 2: CATEGORIES ONLY ======================= */}
-        <TabsContent value="categories" className="space-y-4 mt-6 w-full">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 border shadow-sm gap-3 md:gap-0 rounded-xl">
-            <h2 className="text-lg font-semibold">Categories</h2>
-            <Button onClick={openCatAdd} className="w-full md:w-auto"><Plus className="w-4 h-4 mr-2" /> Add Category</Button>
+        <TabsContent value="categories" className="space-y-4 mt-16 animate-in fade-in duration-300 w-full">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-5 border border-slate-200/60 shadow-sm gap-4 md:gap-0 rounded-2xl">
+            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <Layers className="text-primary w-5 h-5" /> Categories List
+            </h2>
+            <Button onClick={openCatAdd} className="w-full rounded-xl md:w-auto h-11 bg-primary hover:bg-primary/90 font-bold shadow-sm">
+              <Plus className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Add Category
+            </Button>
           </div>
           
           {/* 📱 MOBILE VIEW: CATEGORY CARDS */}
           <div className="grid grid-cols-1 gap-3 md:hidden">
-            {isLoading && <div className="text-center py-8">Loading...</div>}
-            {!isLoading && categoriesList.length === 0 && <div className="text-center py-8 text-muted-foreground">No categories found.</div>}
+            {isLoading && <div className="text-center py-12 text-slate-400 font-bold animate-pulse bg-white border border-slate-200/60 rounded-2xl shadow-sm">Loading...</div>}
+            {!isLoading && categoriesList.length === 0 && <div className="text-center py-12 text-slate-500 font-bold bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl">No categories found.</div>}
             {categoriesList.map((cat) => (
-              <div key={cat.id} className="bg-white border shadow-sm rounded-lg p-4 flex flex-col gap-3">
-                <div className="flex justify-between items-start">
+              <div key={cat.id} className="bg-white border border-slate-200/60 shadow-sm rounded-xl p-4 flex flex-col gap-4">
+                <div className="flex justify-between items-start border-b border-slate-50 pb-3">
                   <div>
-                    <h4 className="font-bold text-slate-800">{cat.name_en}</h4>
-                    <p className="text-xs text-muted-foreground">{cat.name_ar}</p>
-                    <span className="text-xs text-slate-400 mt-1 block">Sort: {cat.sort_order}</span>
+                    <h4 className="font-bold text-[15px] text-slate-800 leading-tight">{cat.name_en}</h4>
+                    <p className="text-[12px] text-slate-500 mt-1">{cat.name_ar}</p>
+                    <span className="text-[11px] text-slate-400 mt-1.5 block font-medium bg-slate-50 px-2 py-0.5 rounded w-fit">Sort: {cat.sort_order}</span>
                   </div>
-                  <Badge variant={cat.is_active ? "default" : "secondary"}>{cat.is_active ? "Active" : "Inactive"}</Badge>
+                  <Badge variant={cat.is_active ? "default" : "secondary"} className={`text-[10px] font-bold ${cat.is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-none' : ''}`}>
+                    {cat.is_active ? "Active" : "Inactive"}
+                  </Badge>
                 </div>
-                <div className="flex gap-2 pt-2 border-t border-slate-100">
-                  <Button variant="outline" size="sm" className="flex-1 h-8" onClick={() => openCatEdit(cat)}><Edit className="w-3.5 h-3.5 mr-2" /> Edit</Button>
-                  <Button variant="outline" size="sm" className="flex-1 h-8 text-destructive border-red-100 hover:bg-red-50" onClick={() => setDeleteItem({ type: 'cat', id: cat.id, name: cat.name_en })}><Trash2 className="w-3.5 h-3.5 mr-2" /> Delete</Button>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" size="sm" className="h-9 rounded-lg px-4 text-[12px] font-bold" onClick={() => openCatEdit(cat)}>
+                    <Edit className="w-3.5 h-3.5 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                  </Button>
+                  <Button variant="destructive" size="icon" className="h-9 w-9 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border-none shadow-none" onClick={() => setDeleteItem({ type: 'cat', id: cat.id, name: cat.name_en })}>
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
             ))}
           </div>
 
           {/* 💻 DESKTOP VIEW: CATEGORY TABLE */}
-          <div className="hidden md:block bg-white border shadow-sm overflow-hidden rounded-xl w-full">
+          <div className="hidden md:block bg-white border border-slate-200/60 shadow-sm overflow-hidden rounded-2xl w-full">
             <Table>
-              <TableHeader className="bg-slate-50">
-                <TableRow>
-                  <TableHead className="whitespace-nowrap">Category (EN)</TableHead>
-                  <TableHead className="whitespace-nowrap">Category (AR)</TableHead>
-                  <TableHead className="whitespace-nowrap">Sort</TableHead>
-                  <TableHead className="whitespace-nowrap">Status</TableHead>
-                  <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
+              <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Category (EN)</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Category (AR)</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Sort</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Status</TableHead>
+                  <TableHead className="text-right whitespace-nowrap font-bold text-slate-600 py-4">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoading && <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>}
-                {!isLoading && categoriesList.length === 0 && <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No categories found.</TableCell></TableRow>}
+                {isLoading && <TableRow><TableCell colSpan={5} className="text-center py-12 text-slate-400 font-bold animate-pulse">Loading...</TableCell></TableRow>}
+                {!isLoading && categoriesList.length === 0 && <TableRow><TableCell colSpan={5} className="text-center py-12 text-slate-500 font-bold">No categories found.</TableCell></TableRow>}
                 {categoriesList.map((cat) => (
-                  <TableRow key={cat.id}>
-                    <TableCell className="font-medium whitespace-nowrap">{cat.name_en}</TableCell>
-                    <TableCell className="whitespace-nowrap">{cat.name_ar}</TableCell>
-                    <TableCell className="whitespace-nowrap">{cat.sort_order}</TableCell>
-                    <TableCell className="whitespace-nowrap"><Badge variant={cat.is_active ? "default" : "secondary"}>{cat.is_active ? "Active" : "Inactive"}</Badge></TableCell>
-                    <TableCell className="text-right space-x-2 whitespace-nowrap">
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-primary" onClick={() => openCatEdit(cat)}><Edit className="w-4 h-4" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteItem({ type: 'cat', id: cat.id, name: cat.name_en })}><Trash2 className="w-4 h-4" /></Button>
+                  <TableRow key={cat.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+                    <TableCell className="font-bold text-slate-800 whitespace-nowrap py-3">{cat.name_en}</TableCell>
+                    <TableCell className="whitespace-nowrap text-slate-600 font-medium py-3">{cat.name_ar}</TableCell>
+                    <TableCell className="whitespace-nowrap py-3">
+                      <span className="bg-slate-100 px-2.5 py-1 rounded-md text-slate-600 font-mono text-[13px]">{cat.sort_order}</span>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap py-3">
+                      <Badge variant={cat.is_active ? "default" : "secondary"} className={`text-[11px] font-bold ${cat.is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-none' : ''}`}>
+                        {cat.is_active ? "Active" : "Inactive"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right space-x-2 rtl:space-x-reverse whitespace-nowrap py-3">
+                      <Button variant="outline" size="sm" className="h-9 rounded-xl font-bold text-slate-600" onClick={() => openCatEdit(cat)}>
+                        <Edit className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl text-rose-500 hover:text-rose-600 hover:bg-rose-50" onClick={() => setDeleteItem({ type: 'cat', id: cat.id, name: cat.name_en })}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -358,47 +407,54 @@ export default function CategoriesAndServicesPage() {
         </TabsContent>
 
         {/* ======================= TAB 3: SERVICES ONLY ======================= */}
-        <TabsContent value="services" className="space-y-4 mt-6 w-full">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 border shadow-sm gap-3 md:gap-0 rounded-xl">
-            <h2 className="text-lg font-semibold">Services</h2>
-            <Button onClick={() => openSrvAdd()} className="w-full md:w-auto"><Plus className="w-4 h-4 mr-2" /> Add Service</Button>
+        <TabsContent value="services" className="space-y-4 mt-16 animate-in fade-in duration-300 w-full">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-5 border border-slate-200/60 shadow-sm gap-4 md:gap-0 rounded-2xl">
+            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <Wrench className="text-primary w-5 h-5" /> Services List
+            </h2>
+            <Button onClick={() => openSrvAdd()} className="w-full rounded-xl md:w-auto h-11 bg-primary hover:bg-primary/90 font-bold shadow-sm">
+              <Plus className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Add Service
+            </Button>
           </div>
           
-          {/* 📱 MOBILE VIEW: SERVICE CARDS */}
           <div className="grid grid-cols-1 gap-3 md:hidden">
-            {isLoading && <div className="text-center py-8">Loading...</div>}
-            {!isLoading && flatServicesList.length === 0 && <div className="text-center py-8 text-muted-foreground">No services found.</div>}
+            {isLoading && <div className="text-center py-12 text-slate-400 font-bold animate-pulse bg-white border border-slate-200/60 rounded-2xl shadow-sm">Loading...</div>}
+            {!isLoading && flatServicesList.length === 0 && <div className="text-center py-12 text-slate-500 font-bold bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl">No services found.</div>}
             {flatServicesList.map((srv: any) => {
               const parentCat = categoriesList.find((c) => c.id === srv.category_id)
               return (
-                <div key={srv.id} className="bg-white border shadow-sm rounded-lg p-4 flex flex-col gap-2.5">
-                  <div className="flex justify-between items-start">
+                <div key={srv.id} className="bg-white border border-slate-200/60 shadow-sm rounded-xl p-4 flex flex-col gap-3">
+                  <div className="flex justify-between items-start border-b border-slate-50 pb-3">
                     <div>
-                      <h4 className="font-bold text-slate-800">{srv.name_en}</h4>
-                      <p className="text-xs text-muted-foreground">{srv.name_ar}</p>
-                      <span className="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded mt-1.5 inline-block">
-                        Cat: {parentCat?.name_en || "N/A"}
-                      </span>
+                      <h4 className="font-bold text-[15px] text-slate-800 leading-tight">{srv.name_en}</h4>
+                      <p className="text-[12px] text-slate-500 mt-1">{srv.name_ar}</p>
                     </div>
-                    <Badge variant={srv.is_active ? "outline" : "secondary"} className="text-[10px]">
+                    <Badge variant={srv.is_active ? "outline" : "secondary"} className="text-[10px] font-bold">
                       {srv.is_active ? "Active" : "Inactive"}
                     </Badge>
                   </div>
                   
-                  <div className="flex justify-between items-center mt-1">
-                    <span className="font-mono font-bold text-primary text-sm">{srv.base_price} ج.م</span>
-                    <span className="text-xs text-muted-foreground">{srv.duration_hours} hrs</span>
+                  <div className="flex flex-col bg-slate-50/80 px-3 py-2 rounded-lg border border-slate-100">
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Category</span>
+                    <span className="text-[13px] font-bold text-slate-700">{parentCat?.name_en || "N/A"}</span>
+                  </div>
+
+                  <div className="flex justify-between items-center px-1">
+                    <span className="font-mono font-bold text-primary text-[15px]">{srv.base_price} ج.م</span>
+                    <span className="text-[12px] text-slate-500 font-medium bg-slate-100 px-2 py-0.5 rounded-md">{srv.duration_hours} hrs</span>
                   </div>
 
                   {/* Commission Button Mobile */}
-                  {renderCommissionBadge(srv, true)}
+                  <div className="mt-1">
+                    {renderCommissionBadge(srv, true)}
+                  </div>
 
-                  <div className="flex gap-2 pt-3 mt-1 border-t border-slate-100">
-                    <Button variant="outline" size="sm" className="flex-1 h-8" onClick={() => openSrvEdit(srv)}>
-                      <Edit className="w-3.5 h-3.5 mr-2" /> Edit
+                  <div className="flex justify-end gap-2 pt-2 border-t border-slate-50">
+                    <Button variant="outline" size="sm" className="h-9 px-4 rounded-lg text-[12px] font-bold" onClick={() => openSrvEdit(srv)}>
+                      <Edit className="w-3.5 h-3.5 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
                     </Button>
-                    <Button variant="outline" size="sm" className="flex-1 h-8 text-destructive border-red-100 hover:bg-red-50" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}>
-                      <Trash2 className="w-3.5 h-3.5 mr-2" /> Delete
+                    <Button variant="destructive" size="icon" className="h-9 w-9 shrink-0 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border-none shadow-none" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}>
+                      <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
@@ -406,39 +462,47 @@ export default function CategoriesAndServicesPage() {
             })}
           </div>
 
-          {/* 💻 DESKTOP VIEW: SERVICE TABLE */}
-          <div className="hidden md:block bg-white border shadow-sm overflow-hidden rounded-xl w-full">
+          {/* DESKTOP VIEW: SERVICE TABLE */}
+          <div className="hidden md:block bg-white border border-slate-200/60 shadow-sm overflow-hidden rounded-2xl w-full">
             <Table>
-              <TableHeader className="bg-slate-50">
-                <TableRow>
-                  <TableHead className="whitespace-nowrap">Service (EN)</TableHead>
-                  <TableHead className="whitespace-nowrap">Category</TableHead>
-                  <TableHead className="whitespace-nowrap">Price (ج.م)</TableHead>
-                  <TableHead className="whitespace-nowrap">Commission</TableHead>
-                  <TableHead className="whitespace-nowrap">Duration</TableHead>
-                  <TableHead className="whitespace-nowrap">Status</TableHead>
-                  <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
+              <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Service (EN / AR)</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Category</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Price (ج.م)</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Commission</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Duration</TableHead>
+                  <TableHead className="whitespace-nowrap font-bold text-slate-600 py-4">Status</TableHead>
+                  <TableHead className="text-right whitespace-nowrap font-bold text-slate-600 py-4">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoading && <TableRow><TableCell colSpan={7} className="text-center py-8">Loading...</TableCell></TableRow>}
-                {!isLoading && flatServicesList.length === 0 && <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No services found.</TableCell></TableRow>}
+                {isLoading && <TableRow><TableCell colSpan={7} className="text-center py-12 text-slate-400 font-bold animate-pulse">Loading...</TableCell></TableRow>}
+                {!isLoading && flatServicesList.length === 0 && <TableRow><TableCell colSpan={7} className="text-center py-12 text-slate-500 font-bold">No services found.</TableCell></TableRow>}
                 {flatServicesList.map((srv: any) => {
                   const parentCat = categoriesList.find((c) => c.id === srv.category_id)
                   return (
-                    <TableRow key={srv.id}>
-                      <TableCell className="font-medium whitespace-nowrap">
-                        {srv.name_en} 
-                        <div className="text-xs text-muted-foreground mt-1">{srv.name_ar}</div>
+                    <TableRow key={srv.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+                      <TableCell className="font-medium whitespace-nowrap py-3">
+                        <span className="text-slate-800 font-bold block">{srv.name_en}</span> 
+                        <span className="text-xs text-slate-500 block mt-0.5">{srv.name_ar}</span>
                       </TableCell>
-                      <TableCell className="whitespace-nowrap">{parentCat?.name_en || "N/A"}</TableCell>
-                      <TableCell className="whitespace-nowrap font-mono">{srv.base_price}</TableCell>
-                      <TableCell className="whitespace-nowrap">{renderCommissionBadge(srv)}</TableCell>
-                      <TableCell className="whitespace-nowrap">{srv.duration_hours} hrs</TableCell>
-                      <TableCell className="whitespace-nowrap"><Badge variant={srv.is_active ? "outline" : "secondary"}>{srv.is_active ? "Active" : "Inactive"}</Badge></TableCell>
-                      <TableCell className="text-right space-x-2 whitespace-nowrap">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-primary" onClick={() => openSrvEdit(srv)}><Edit className="w-4 h-4" /></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}><Trash2 className="w-4 h-4" /></Button>
+                      <TableCell className="whitespace-nowrap py-3">
+                        <span className="bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg text-[13px] font-bold text-slate-700 inline-block">
+                          {parentCat?.name_en || "N/A"}
+                        </span>
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap font-mono font-bold text-primary py-3">{srv.base_price}</TableCell>
+                      <TableCell className="whitespace-nowrap py-3">{renderCommissionBadge(srv)}</TableCell>
+                      <TableCell className="whitespace-nowrap text-slate-600 font-medium py-3">{srv.duration_hours} hrs</TableCell>
+                      <TableCell className="whitespace-nowrap py-3"><Badge variant={srv.is_active ? "outline" : "secondary"} className="text-[11px] font-bold">{srv.is_active ? "Active" : "Inactive"}</Badge></TableCell>
+                      <TableCell className="text-right space-x-2 rtl:space-x-reverse whitespace-nowrap py-3">
+                        <Button variant="outline" size="sm" className="h-9 rounded-xl font-bold text-slate-600" onClick={() => openSrvEdit(srv)}>
+                          <Edit className="w-4 h-4 mr-1.5 rtl:ml-1.5 rtl:mr-0" /> Edit
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl text-rose-500 hover:text-rose-600 hover:bg-rose-50" onClick={() => setDeleteItem({ type: 'srv', id: srv.id, name: srv.name_en })}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
                       </TableCell>
                     </TableRow>
                   )
@@ -448,13 +512,12 @@ export default function CategoriesAndServicesPage() {
           </div>
         </TabsContent>
       </Tabs>
-
       {/* المودال الخاص بالإضافة والتعديل للعمولة */}
       <ServiceCommissionModal open={isCommissionModalOpen} onOpenChange={setIsCommissionModalOpen} service={selectedServiceForCommission} />
 
       {/* ======================= CATEGORY MODAL ======================= */}
       <Dialog open={isCatModalOpen} onOpenChange={setIsCatModalOpen}>
-        <DialogContent className="w-[95vw] sm:max-w-[425px] rounded-2xl">
+        <DialogContent className="w-[95vw] sm:max-w-[425px]  rounded-2xl">
           <DialogHeader><DialogTitle>{selectedCat ? "Edit Category" : "Add Category"}</DialogTitle></DialogHeader>
           <form onSubmit={catForm.handleSubmit(onCatSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -496,7 +559,7 @@ export default function CategoriesAndServicesPage() {
 
       {/* ======================= SERVICE MODAL ======================= */}
       <Dialog open={isSrvModalOpen} onOpenChange={setIsSrvModalOpen}>
-        <DialogContent className="w-[95vw] sm:max-w-[500px] rounded-2xl">
+        <DialogContent className="w-[95vw] sm:max-w-[500px]  rounded-2xl">
           <DialogHeader><DialogTitle>{selectedSrv ? "Edit Service" : "Add Service"}</DialogTitle></DialogHeader>
           <form onSubmit={srvForm.handleSubmit(onSrvSubmit)} className="space-y-4">
             <div>
@@ -546,7 +609,7 @@ export default function CategoriesAndServicesPage() {
 
       {/* ======================= DELETE CONFIRMATION ======================= */}
       <AlertDialog open={!!deleteItem} onOpenChange={() => setDeleteItem(null)}>
-        <AlertDialogContent className="w-[90vw] sm:max-w-[425px] rounded-2xl">
+        <AlertDialogContent className="w-[90vw] sm:max-w-[425px]  rounded-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>

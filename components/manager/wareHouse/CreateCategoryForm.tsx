@@ -1,7 +1,3 @@
-
-
-
-
 "use client";
 
 import React from "react";
@@ -48,38 +44,35 @@ export function CreateCategoryForm({ categories }: CreateCategoryFormProps) {
       };
       const result = await createCategory(payload).unwrap();
       reset();
-      toast.success("تم الإضافة بنجاح")
+      toast.success("تم الإضافة بنجاح");
     } catch (error) {
-
        const errorMessage =  "حدث خطأ اثناء الاضافة";
-      
       toast.error(errorMessage);
-
     }
   };
 
   return (
-    <div className="flex flex-col  gap-4 bg-white border border-slate-200/60 shadow-sm p-6 rounded-2xl w-full">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center lg:flex-row gap-4 ">
+    <div className="flex flex-col gap-3 bg-white border border-slate-200/60 shadow-sm p-3 sm:p-4 rounded-xl w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 w-full">
         
         {/* حقل الاسم */}
-        <div className=" w-full space-y-2">
-          <label className="text-sm font-medium text-slate-700">
+        <div className="w-full flex flex-col gap-1.5">
+          <label className="text-[12px] font-bold text-slate-700">
             {t("categoryName") || "اسم القسم"}
           </label>
           <Input 
             placeholder={t("categoryNamePlaceholder") || "مثال: قطع غيار تكييف"} 
-            className="w-full rounded-xl border-slate-200 px-4 shadow-sm h-11 bg-slate-50/50 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary"
+            className="w-full rounded-lg border-slate-200 px-3 shadow-sm h-9 bg-slate-50/50 text-[12px] focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
             {...register("name")} 
           />
           {errors.name && (
-            <p className="text-xs font-medium text-red-500 px-1">{errors.name.message}</p>
+            <p className="text-[10px] font-bold text-red-500 px-1">{errors.name.message}</p>
           )}
         </div>
 
         {/* حقل القسم الأب */}
-        <div className=" w-full space-y-2">
-          <label className="text-sm font-medium mb-2 text-slate-700">
+        <div className="w-full flex flex-col gap-1.5">
+          <label className="text-[12px] font-bold text-slate-700">
             {t("parentCategory") || "القسم الرئيسي (إن وُجد)"}
           </label>
           <Controller
@@ -87,15 +80,15 @@ export function CreateCategoryForm({ categories }: CreateCategoryFormProps) {
             name="parent_id"
             render={({ field }) => (
               <Select onValueChange={field.onChange} value={field.value}>
-                <SelectTrigger className="w-full px-4 rounded-xl border-slate-200 shadow-sm h-11 bg-slate-50/50 focus:ring-2 focus:ring-primary/20">
+                <SelectTrigger className="w-full px-3 rounded-lg border-slate-200 shadow-sm h-9 bg-slate-50/50 text-[12px] focus:ring-2 focus:ring-primary/20">
                   <SelectValue placeholder={t("selectParent") || "اختر القسم الأب"} />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl mt-2 border-slate-200 shadow-lg">
-                  <SelectItem value="none" className="rounded-lg text-primary font-medium">
+                <SelectContent className="rounded-lg mt-1 border-slate-200 shadow-lg" dir="rtl">
+                  <SelectItem value="none" className="rounded-md text-primary font-bold text-[12px]">
                      {t("mainCategory") || "قسم رئيسي "} 
                   </SelectItem>
                   {categories.map((cat: any) => (
-                    <SelectItem key={cat.id} value={cat.id.toString()} className="rounded-lg">
+                    <SelectItem key={cat.id} value={cat.id.toString()} className="rounded-md text-[12px] font-medium">
                       {cat.name}
                     </SelectItem>
                   ))}
@@ -109,9 +102,9 @@ export function CreateCategoryForm({ categories }: CreateCategoryFormProps) {
         <Button 
           type="submit" 
           disabled={isLoading}
-          className="w-full lg:w-auto bg-primary hover:bg-primary/90 text-white rounded-xl shadow-sm flex items-center justify-center gap-2 px-8 h-11 transition-all"
+          className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg shadow-sm flex items-center justify-center gap-1.5 px-4 h-9 text-[12px] font-bold transition-all mt-1 active:scale-[0.98]"
         >
-          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus size={18} />}
+          {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus size={14} />}
           <span>{t("saveBtn") || "إضافة القسم"}</span>
         </Button>
         

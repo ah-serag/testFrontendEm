@@ -132,7 +132,6 @@ export default function CreatePurchaseInvoicePage() {
         
         <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
           <h2 className="text-sm font-bold text-primary mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-primary"></span>
             البيانات الأساسية
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -168,7 +167,6 @@ export default function CreatePurchaseInvoicePage() {
         <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
           <div className="flex flex-col gap-3">
             <h2 className="text-sm font-bold text-primary flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary"></span>
               أصناف الفاتورة <span className="text-red-500">*</span>
             </h2>
             <MaterialSearchInput onSelect={handleMaterialSelect} />

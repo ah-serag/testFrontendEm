@@ -68,125 +68,135 @@ export default function DocumentGeneratorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/80 p-4 md:p-6" dir="rtl">
+    <div className="min-h-screen max-w-dvw bg-slate-50/50 p-3 md:p-6 font-sans" dir="rtl">
       
-      <div className="max-w-9xl mx-auto space-y-6 pb-20">
+      <div className=" mx-auto space-y-4 pb-20">
         
-        {/* ===================== 1. Header (رأس الصفحة) ===================== */}
-        <div className="bg-primary rounded-2xl p-6 border border-slate-200/60 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 shrink-0 bg-white rounded-2xl flex items-center justify-center text-primary border border-primary/20">
-            <FileSignature className="w-7 h-7" />
+        {/* ===================== 1. Header ===================== */}
+        <div className="bg-primary rounded-2xl p-4 md:p-5 border border-slate-200/60 shadow-sm flex items-center gap-3.5">
+          <div className="w-12 h-12 shrink-0 bg-white/10 rounded-xl flex items-center justify-center text-white border border-white/20 shadow-sm">
+            <FileSignature className="w-6 h-6" />
           </div>
           <div className="flex flex-col text-right">
-            <h1 className="text-2xl font-normal text-slate-200">إصدار مستند مالي</h1>
-            <p className="text-slate-200 mt-1 text-sm font-medium">عروض أسعار وفواتير مُنسقة جاهزة للطباعة (PDF).</p>
+            <h1 className="text-lg md:text-xl font-normal text-white leading-tight">إصدار مستند مالي</h1>
+            <p className="text-primary-foreground/80 mt-0.5 text-[11px] md:text-[12px] font-medium">عروض أسعار وفواتير مُنسقة وجاهزة للطباعة (PDF)</p>
           </div>
         </div>
 
         {/* ===================== 2. نوع المستند ===================== */}
-        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/60 shadow-sm">
-          <Label className="text-sm font-extrabold text-primary mb-4 block">1. حدد نوع المستند المراد إصداره:</Label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+          <Label className="text-[13px] font-bold text-slate-800 mb-3  flex items-center gap-1.5">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px]">1</span>
+            حدد نوع المستند:
+          </Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setDocType("quotation")}
-              className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-base font-bold transition-all ${
+              className={`flex items-center justify-center gap-2 h-11 rounded-xl border text-[13px] font-bold transition-all active:scale-[0.98] ${
                 docType === "quotation" 
                   ? "bg-primary/5 border-primary text-primary shadow-sm ring-1 ring-primary/20" 
                   : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700"
               }`}
             >
-              <LayoutList className="w-5 h-5" /> عرض سعر (Quotation)
+              <LayoutList className="w-4 h-4" /> عرض سعر (Quotation)
             </button>
             
             <button
               type="button"
               onClick={() => setDocType("invoice")}
-              className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-base font-bold transition-all ${
+              className={`flex items-center justify-center gap-2 h-11 rounded-xl border text-[13px] font-bold transition-all active:scale-[0.98] ${
                 docType === "invoice" 
                   ? "bg-primary/5 border-primary text-primary shadow-sm ring-1 ring-primary/20" 
                   : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700"
               }`}
             >
-              <ReceiptText className="w-5 h-5" /> فاتورة مبيعات (Invoice)
+              <ReceiptText className="w-4 h-4" /> فاتورة مبيعات (Invoice)
             </button>
           </div>
         </div>
 
         {/* ===================== 3. بيانات العميل ===================== */}
-        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/60 shadow-sm">
-          <Label className="text-sm font-extrabold text-primary mb-5 block">2. بيانات العميل والتاريخ:</Label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-            <div className="space-y-2.5">
-              <Label className="text-xs font-bold text-slate-600 flex items-center gap-1.5"><User className="w-4 h-4"/> العميل / الشركة</Label>
-              <Input value={customerName} onChange={e => setCustomerName(e.target.value)} placeholder="اسم العميل..." className="h-12 text-sm rounded-xl bg-slate-50 focus-visible:ring-primary/20" />
+        <div className="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+          <Label className="text-[13px] font-bold text-slate-800 mb-4  flex items-center gap-1.5">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px]">2</span>
+            بيانات العميل والتاريخ:
+          </Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="space-y-1.5">
+              <Label className="text-[11px] font-bold text-slate-600 flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-slate-400"/> العميل / الشركة</Label>
+              <Input  value={customerName} dir="rtl"  onChange={e => setCustomerName(e.target.value)} placeholder="اسم العميل..." className="h-10 text-[12px] px-4 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-primary/20 shadow-none transition-all" />
             </div>
-            <div className="space-y-2.5">
-              <Label className="text-xs font-bold text-slate-600 flex items-center gap-1.5"><Phone className="w-4 h-4"/> هاتف العميل</Label>
-              <Input value={customerPhone} onChange={e => setCustomerPhone(e.target.value)} placeholder="010..." className="h-12 text-sm rounded-xl bg-slate-50 focus-visible:ring-primary/20" />
+            <div className="space-y-1.5">
+              <Label className="text-[11px] font-bold text-slate-600 flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-slate-400"/> هاتف العميل</Label>
+              <Input  value={customerPhone} dir="rtl"  onChange={e => setCustomerPhone(e.target.value)} placeholder="010..." className="h-10 text-[12px] px-4 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-primary/20 shadow-none transition-all" />
             </div>
-            <div className="space-y-2.5">
-              <Label className="text-xs font-bold text-slate-600 flex items-center gap-1.5"><Hash className="w-4 h-4"/> الرقم المرجعي</Label>
-              <Input value={docNumber} onChange={e => setDocNumber(e.target.value)} className="h-12 text-sm rounded-xl bg-slate-50 font-mono text-left focus-visible:ring-primary/20" dir="ltr" />
+            <div className="space-y-1.5">
+              <Label className="text-[11px] font-bold text-slate-600 flex items-center gap-1.5"><Hash className="w-3.5 h-3.5 text-slate-400"/> الرقم المرجعي</Label>
+              <Input  value={docNumber} dir="rtl"   onChange={e => setDocNumber(e.target.value)} className="h-10 text-[12px] px-4 rounded-lg bg-slate-50 border-slate-200 font-mono text-left focus-visible:ring-primary/20 shadow-none transition-all"  />
             </div>
-            <div className="space-y-2.5">
-              <Label className="text-xs font-bold text-slate-600 flex items-center gap-1.5"><CalendarDays className="w-4 h-4"/> التاريخ</Label>
-              <Input type="date" value={docDate} onChange={e => setDocDate(e.target.value)} className="h-12 text-sm rounded-xl bg-slate-50 focus-visible:ring-primary/20" />
+            <div className="space-y-1.5">
+              <Label className="text-[11px] font-bold text-slate-600 flex items-center gap-1.5"><CalendarDays className="w-3.5 h-3.5 text-slate-400"/> التاريخ</Label>
+              <Input  type="date" value={docDate} dir="rtl"  onChange={e => setDocDate(e.target.value)} className="h-10 text-[12px] px-4 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-primary/20 shadow-none transition-all" />
             </div>
           </div>
         </div>
 
         {/* ===================== 4. الأصناف ===================== */}
-        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/60 shadow-sm">
-          <Label className="text-sm font-extrabold text-primary mb-5 block">3. الأصناف والخدمات المقدمة:</Label>
+        <div className="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+          <Label className="text-[13px] font-bold text-slate-800 mb-4  flex items-center gap-1.5">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px]">3</span>
+            الأصناف والخدمات المقدمة:
+          </Label>
           
-          <div className="space-y-4 mb-6">
+          <div className="space-y-3 mb-4">
             {items.map((item, index) => (
-              // تصميم الصنف: يعرض كـ Column في الموبايل، وكـ Row منتظم في الكمبيوتر
-              <div key={item.id} className="relative flex flex-col md:flex-row items-start md:items-end gap-4 p-5 bg-slate-50/80 rounded-xl border border-slate-200/80 transition-all hover:border-primary/30">
+              <div key={item.id} className="relative flex flex-col lg:flex-row items-start lg:items-end gap-3 p-3.5 bg-slate-50/50 rounded-xl border border-slate-100 transition-all hover:border-primary/30">
                 
-                {/* زر الحذف في الموبايل (مطلق بالأعلى) */}
+                {/* زر الحذف في الموبايل */}
                 <button 
                   onClick={() => handleRemoveItem(item.id)}
-                  className="absolute top-4 left-4 md:hidden w-8 h-8 flex items-center justify-center text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                  className="absolute top-2 left-2 lg:hidden w-8 h-8 flex items-center justify-center text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
 
-                {/* رقم الصنف (اختياري للزينة) */}
-                <div className="hidden md:flex flex-col space-y-2 w-6 pb-3 justify-end items-center">
-                  <span className="font-extrabold text-slate-400 text-sm">{index + 1}</span>
+                <div className="hidden lg:flex flex-col space-y-1.5 w-6 pb-2.5 justify-end items-center">
+                  <span className="font-bold text-slate-400 text-[11px]">{index + 1}</span>
                 </div>
 
-                <div className="w-full md:flex-1 space-y-2">
-                  <Label className="text-xs font-bold text-slate-600">البيان / الوصف</Label>
-                  <Input value={item.description} onChange={e => updateItem(item.id, 'description', e.target.value)} placeholder="اكتب وصف الخدمة..." className="h-12 text-sm rounded-xl bg-white focus-visible:ring-primary/20" />
+                <div className="w-full lg:flex-1 space-y-1.5">
+                  <Label className="text-[11px] font-bold text-slate-600">البيان / الوصف</Label>
+                  <Input value={item.description} onChange={e => updateItem(item.id, 'description', e.target.value)} placeholder="اكتب وصف الخدمة أو الصنف..." className="h-10 text-[12px] px-4 rounded-lg bg-white border-slate-200 focus-visible:ring-primary/20 shadow-none transition-all" />
                 </div>
                 
-                <div className="w-full md:w-28 space-y-2">
-                  <Label className="text-xs font-bold text-slate-600">الكمية</Label>
-                  <Input type="number" min="1" value={item.quantity} onChange={e => updateItem(item.id, 'quantity', e.target.value)} className="h-12 text-sm rounded-xl bg-white text-center font-mono focus-visible:ring-primary/20" />
+                {/* شبكة مصغرة للكمية والسعر في الموبايل */}
+                <div className="grid grid-cols-2 gap-3 w-full lg:w-auto">
+                  <div className="w-full lg:w-20 space-y-1.5">
+                    <Label className="text-[11px] font-bold text-slate-600">الكمية</Label>
+                    <Input type="number" min="1" value={item.quantity} onChange={e => updateItem(item.id, 'quantity', e.target.value)} className="h-10 text-[12px] rounded-lg bg-white border-slate-200 text-center font-mono focus-visible:ring-primary/20 shadow-none transition-all" />
+                  </div>
+                  
+                  <div className="w-full lg:w-28 space-y-1.5">
+                    <Label className="text-[11px] font-bold text-slate-600">السعر</Label>
+                    <Input type="number" min="0" value={item.price} onChange={e => updateItem(item.id, 'price', e.target.value)} className="h-10 text-[12px] rounded-lg bg-white border-slate-200 text-center font-mono focus-visible:ring-primary/20 shadow-none transition-all" />
+                  </div>
                 </div>
                 
-                <div className="w-full md:w-36 space-y-2">
-                  <Label className="text-xs font-bold text-slate-600">السعر</Label>
-                  <Input type="number" min="0" value={item.price} onChange={e => updateItem(item.id, 'price', e.target.value)} className="h-12 text-sm rounded-xl bg-white text-center font-mono focus-visible:ring-primary/20" />
-                </div>
-                
-                <div className="w-full md:w-36 space-y-2">
-                  <Label className="text-xs font-bold text-slate-600">الإجمالي</Label>
-                  <div className="h-12 bg-white flex items-center justify-center rounded-xl border border-slate-200 font-extrabold text-primary text-sm font-mono shadow-sm">
+                <div className="w-full lg:w-32 space-y-1.5 mt-1 lg:mt-0">
+                  <Label className="text-[11px] font-bold text-slate-600">الإجمالي</Label>
+                  <div className="h-10 bg-white flex items-center justify-center rounded-lg border border-slate-200 font-bold text-primary text-[12px] font-mono shadow-sm">
                     {(Number(item.quantity) * Number(item.price)).toLocaleString()} ج.م
                   </div>
                 </div>
 
-                {/* زر الحذف في الكمبيوتر (يظهر بجوار الإجمالي) */}
+                {/* زر الحذف في الكمبيوتر */}
                 <Button 
                   variant="ghost" 
                   onClick={() => handleRemoveItem(item.id)} 
-                  className="hidden md:flex w-12 h-12 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl"
+                  className="hidden lg:flex w-10 h-10 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg shrink-0"
                 >
-                  <Trash2 className="w-5 h-5" />
+                  <Trash2 className="w-4 h-4" />
                 </Button>
 
               </div>
@@ -196,59 +206,62 @@ export default function DocumentGeneratorPage() {
           <Button 
             onClick={handleAddItem} 
             variant="outline" 
-            className="w-full h-12 border-dashed border-2 border-slate-300 text-slate-500 hover:border-primary hover:text-primary hover:bg-primary/5 rounded-xl text-sm font-bold transition-all"
+            className="w-full h-11 border-dashed border-2 border-slate-200 text-slate-500 hover:border-primary hover:text-primary hover:bg-primary/5 rounded-xl text-[12px] font-bold transition-all"
           >
-            <Plus className="w-5 h-5 ml-2" /> أضف صنف أو خدمة جديدة
+            <Plus className="w-4 h-4 ml-1.5" /> أضف صنف أو خدمة جديدة
           </Button>
         </div>
 
         {/* ===================== 5. الماليات والطباعة ===================== */}
-        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/60 shadow-md">
-          <Label className="text-sm font-extrabold text-primary mb-6 block">4. مراجعة الإجماليات والطباعة:</Label>
+        <div className="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+          <Label className="text-[13px] font-bold text-slate-800 mb-4  flex items-center gap-1.5">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px]">4</span>
+            مراجعة الإجماليات والطباعة:
+          </Label>
           
-          <div className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="flex flex-col md:flex-row gap-5 items-start">
             
             {/* إدخال الخصم */}
-            <div className="w-full md:w-1/2 space-y-3">
-              <Label className="text-sm font-bold text-slate-700">قيمة الخصم (إن وجد)</Label>
+            <div className="w-full md:w-1/2 space-y-2">
+              <Label className="text-[12px] font-bold text-slate-700">قيمة الخصم (إن وجد)</Label>
               <Input 
                 type="number" min="0" value={discount} 
                 onChange={e => setDiscount(e.target.value === "" ? "" : Number(e.target.value))} 
                 placeholder="0.00" 
-                className="h-12 text-base rounded-xl bg-slate-50 font-mono text-left focus-visible:ring-primary/20" 
+                className="h-11 text-[13px] px-4 rounded-xl bg-slate-50 border-slate-200 font-mono text-left focus-visible:ring-primary/20 shadow-none transition-all" 
                 dir="ltr"
               />
-              <p className="text-xs text-slate-400 text-right">أدخل قيمة الخصم ليتم طرحها من الإجمالي.</p>
+              <p className="text-[10px] text-slate-400 text-right font-medium">أدخل قيمة الخصم ليتم طرحها من الإجمالي مباشرة.</p>
             </div>
 
             {/* الإجماليات وزر الطباعة */}
-            <div className="w-full md:w-1/2 flex flex-col gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-100">
-              <div className="flex justify-between items-center text-sm">
+            <div className="w-full md:w-1/2 flex flex-col gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <div className="flex justify-between items-center text-[12px]">
                 <span className="font-bold text-slate-600">الإجمالي قبل الخصم</span>
-                <span className="font-extrabold font-mono text-slate-800">{subTotal.toLocaleString()} ج.م</span>
+                <span className="font-bold font-mono text-slate-800">{subTotal.toLocaleString()} ج.م</span>
               </div>
               
               {Number(discount) > 0 && (
-                <div className="flex justify-between items-center text-sm">
+                <div className="flex justify-between items-center text-[12px]">
                   <span className="font-bold text-rose-500">قيمة الخصم</span>
-                  <span className="font-extrabold font-mono text-rose-600">- {Number(discount).toLocaleString()} ج.م</span>
+                  <span className="font-bold font-mono text-rose-600">- {Number(discount).toLocaleString()} ج.م</span>
                 </div>
               )}
               
-              <div className="bg-primary rounded-xl p-4 mt-2 shadow-inner border border-primary/20">
-                <span className="block text-white/80 text-xs font-bold mb-1">الصافي النهائي للمستند</span>
-                <div className="flex items-baseline gap-1">
-                  <span className="font-extrabold font-mono text-3xl text-white">{netTotal.toLocaleString()}</span>
-                  <span className="text-sm font-bold text-white/70">ج.م</span>
+              <div className="bg-primary rounded-xl p-3.5 mt-1 shadow-inner border border-primary/20 flex flex-col justify-center items-center text-center">
+                <span className="block text-primary-foreground/80 text-[10px] font-bold mb-0.5">الصافي النهائي للمستند</span>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="font-bold font-mono text-xl text-white">{netTotal.toLocaleString()}</span>
+                  <span className="text-[11px] font-bold text-white/70">ج.م</span>
                 </div>
               </div>
 
               <Button 
                 onClick={handleGenerate} 
-                className="w-full h-14 mt-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-base shadow-lg transition-all active:scale-[0.98]"
+                className="w-full h-11 mt-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-[13px] shadow-md transition-all active:scale-[0.98]"
               >
-                <FileText className="w-5 h-5 ml-2" />
-                إنشاء وطباعة הـ PDF
+                <FileText className="w-4 h-4 ml-1.5" />
+                إنشاء وطباعة المستند
               </Button>
             </div>
 
