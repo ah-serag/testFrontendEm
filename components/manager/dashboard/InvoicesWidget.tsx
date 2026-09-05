@@ -6,12 +6,14 @@ import {
   Receipt, 
   CheckCircle2, 
   FileEdit, 
-  XCircle 
+  XCircle,
+  Coins
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 const ALL_INVOICE_STATUSES = [
   'paid',
+  'partially_paid',
   'draft',
   'cancelled'
 ];
@@ -19,21 +21,27 @@ const ALL_INVOICE_STATUSES = [
 const STATUS_UI = {
   paid: { 
     icon: CheckCircle2, 
-    containerClass: 'border-l-4 border-emerald-500 bg-emerald-50/80 hover:bg-emerald-50/100', 
-    textClass: 'text-emerald-700 font-semibold',
-    badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200'
+    containerClass: 'bg-emerald-50/30 border border-emerald-100 hover:bg-emerald-50', 
+    textClass: 'text-emerald-800 font-bold',
+    badgeClass: 'bg-white text-emerald-700 border-emerald-200'
+  },
+  partially_paid: { 
+    icon: Coins, 
+    containerClass: 'bg-amber-50/30 border border-amber-100 hover:bg-amber-50', 
+    textClass: 'text-amber-800 font-bold',
+    badgeClass: 'bg-white text-amber-700 border-amber-200'
   },
   draft: { 
     icon: FileEdit, 
-    containerClass: 'border-l-4 border-gray-300 hover:bg-gray-200 bg-gray-100', 
-    textClass: 'text-primary font-semibold', 
-    badgeClass: 'shadow-sm text-primary border-slate-200 bg-white' 
+    containerClass: 'bg-slate-50 border border-slate-200 hover:bg-slate-100/50', 
+    textClass: 'text-slate-700 font-bold',
+    badgeClass: 'bg-white text-slate-600 border-slate-200'
   },
   cancelled: { 
     icon: XCircle, 
-    containerClass: 'border-l-4 border-gray-300 hover:bg-gray-200 bg-gray-100', 
-    textClass: 'text-primary font-semibold', 
-    badgeClass: 'bg-gray-100 text-primary border-transparent' 
+    containerClass: 'bg-rose-50/30 border border-rose-100 hover:bg-rose-50', 
+    textClass: 'text-rose-800 font-bold',
+    badgeClass: 'bg-white text-rose-700 border-rose-200'
   }
 };
 
@@ -49,12 +57,11 @@ export default function InvoicesWidget() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg border border-slate-200 p-8 shadow-sm animate-pulse h-[380px]">
-        <div className="h-6 bg-slate-100 rounded-lg w-1/3 mb-6"></div>
-        <div className="h-10 bg-slate-100 rounded-lg w-1/4 mb-10"></div>
-        <div className="flex flex-col gap-4">
-           {[...Array(3)].map((_, i) => (
-             <div key={i} className="h-12 bg-slate-50 rounded-lg w-full"></div>
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] animate-pulse h-full min-h-[380px]">
+        <div className="h-6 bg-slate-100 rounded w-1/3 mb-6"></div>
+        <div className="flex flex-col gap-3.5 mt-8">
+           {[...Array(4)].map((_, i) => (
+             <div key={i} className="h-12 rounded-xl bg-slate-50 w-full border border-slate-100"></div>
            ))}
         </div>
       </div>
@@ -63,8 +70,8 @@ export default function InvoicesWidget() {
 
   if (isError) {
     return (
-      <div className="bg-white rounded-lg border border-red-200 p-8 shadow-sm h-[380px] flex items-center justify-center">
-        <p className="text-red-500 text-sm font-medium">حدث خطأ أثناء تحميل إحصائيات الفواتير</p>
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] h-[380px] flex items-center justify-center">
+        <p className="text-slate-500 text-[13px] font-bold">حدث خطأ أثناء تحميل إحصائيات الفواتير</p>
       </div>
     );
   }
@@ -73,45 +80,47 @@ export default function InvoicesWidget() {
   const total = data?.data?.total || 0;
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm transition-shadow hover:shadow-md h-full flex flex-col">
+    <div className="bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] h-full flex flex-col">
       
-      {/* Header */}
-      <div className="mb-6 border-b border-slate-100 bg-gray-100/80 p-6">
-        <h2 className="text-lg font-medium text-primary gap-3 items-center flex">
-          {/* صندوق الأيقونة: حواف ناعمة rounded-lg */}
-          <span className="p-2 bg-primary/5 rounded-lg text-primary shadow-sm">
+      <div className="p-5 border-b border-slate-100 flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-700 shrink-0">
             <Receipt className="w-5 h-5" strokeWidth={1.5} />
-          </span>
-          <div className="flex items-center gap-2">
-            <span>{t('title')}</span>
-            {/* الرقم الإجمالي بداخل دائرة أنيقة */}
-            <span className="bg-primary/10 text-primary border-none rounded-full font-bold px-3 py-1 text-sm shadow-none">
-              {total}
-            </span>
           </div>
-        </h2>
+          <div>
+            <h2 className="text-[15px] font-bold text-slate-800 tracking-tight leading-tight">
+              {t('title')}
+            </h2>
+            <p className="text-[12px] text-slate-500 font-medium mt-0.5">
+              إحصائيات وحالة الفواتير
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col items-center justify-center bg-slate-50 border border-slate-100 rounded-lg px-4 py-1.5 min-w-[60px]">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Total</span>
+          <span className="text-lg font-mono font-bold text-slate-800 leading-none">{total}</span>
+        </div>
       </div>
 
-      <div className="flex flex-col p-6 pt-0 gap-3 flex-grow">
+      <div className="flex flex-col p-5 gap-3 flex-grow justify-center">
         {ALL_INVOICE_STATUSES.map((status) => {
           const UI = STATUS_UI[status as keyof typeof STATUS_UI];
           const Icon = UI.icon;
           const count = stats[status] || 0;
-          const isHighlight = status === 'paid';
 
           return (
             <div 
               key={status} 
-              className={`flex justify-between items-center p-4 rounded-lg transition-all duration-200 ${UI.containerClass}`}
+              className={`flex justify-between items-center p-3.5 rounded-xl transition-all duration-200 border ${UI.containerClass}`}
             >
               <div className="flex items-center gap-3">
-                <Icon className={`w-5 h-5 ${UI.textClass}`} strokeWidth={isHighlight ? 2 : 1.5} />
-                <span className={`text-sm ${UI.textClass} tracking-wide`}>
+                <Icon className={`w-5 h-5 ${UI.textClass}`} strokeWidth={2} />
+                <span className={`text-[13px] ${UI.textClass}`}>
                   {t(`statuses.${status}`)}
                 </span>
               </div>
               
-              <span className={`text-sm font-bold px-3 py-1 rounded-full border shadow-sm ${UI.badgeClass}`}>
+              <span className={`text-[13px] font-mono font-bold px-3 py-1 rounded-md shadow-sm border ${UI.badgeClass}`}>
                 {count}
               </span>
             </div>

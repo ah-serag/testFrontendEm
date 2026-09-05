@@ -834,9 +834,25 @@
       "statuses": {
         "paid": "Paid",
         "draft": "Draft",
+        "partially_paid" :"Partially Paid",
         "cancelled": "Cancelled"
       }
       }  ,
+     "expenses": {
+      "title": "Expenses Statistics",
+      "statuses": {
+        "PENDING_APPROVAL": "Pending Approval",
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected"
+      }
+    },
+    "collections": {
+      "title": "Collections Statistics",
+      "statuses": {
+        "PENDING": "Pending (with Tech)",
+        "REMITTED": "Remitted to Safe"
+      }
+    },       
     "assignments": {
       "title": "Team Assignments",
       "total": "Total Assignments",

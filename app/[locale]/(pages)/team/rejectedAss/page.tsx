@@ -92,7 +92,7 @@ export default function RejectedExecutionsPage() {
               {/* زر الإجراء */}
               <button 
                 onClick={() => setSelectedExecution(exec)}
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-normal py-2 rounded-xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-sm"
+                className="w-full bg-primary hover:bg-primary/70 text-white text-sm font-normal py-2 rounded-xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-sm"
               >
                 <Wrench size={16} /> فتح للتعديل وإعادة الإرسال
               </button>

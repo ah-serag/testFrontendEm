@@ -44,7 +44,23 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
                 params: params 
             }),
             providesTags: ['DashboardToday', 'DashboardBooking', 'DashboardAssignments', 'DashboardInvoices'],
-        })
+        }) ,
+        getExpensesDash: builder.query({
+      query: (params) => ({
+        url: "/api/dashboard/expenses",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["ExpensesDash"],
+    }),
+    getCollectionsDash: builder.query({
+      query: (params) => ({
+        url: "/api/dashboard/collections",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["CollectionsDash"],
+    }),
     })
 });
 
@@ -55,5 +71,7 @@ export const {
     useGetAssignmentsDashQuery,
     useGetInvoicesDashQuery,
     useGetFinancialAmountDashQuery,
-    useGetTodayDashQuery
+    useGetTodayDashQuery ,
+    useGetExpensesDashQuery,
+  useGetCollectionsDashQuery,
 } = dashboardApiSlice;

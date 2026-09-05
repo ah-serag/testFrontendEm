@@ -204,7 +204,7 @@ export function NavbarManager() {
 
       {/* ===================== Mobile Menu Overlay ===================== */}
       {isMobileMenuOpen && (
-        <div className="xl:hidden fixed inset-0 z-[60] flex" dir={isRTL ? "rtl" : "ltr"}>
+        <div className="xl:hidden fixed inset-0 z-[50] flex" dir={isRTL ? "rtl" : "ltr"}>
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setIsMobileMenuOpen(false)} />
           
           <div className={cn("relative w-[280px] bg-primary h-full flex flex-col shadow-2xl transition-transform", isRTL ? "ml-auto" : "mr-auto")}>
@@ -224,7 +224,7 @@ export function NavbarManager() {
             </ScrollArea>
 
             {/* Fixed Footer */}
-            <div className="p-4 border-t border-white/10 bg-black/10 shrink-0 mt-auto">
+            <div className="p-4 border-t z-[100] border-white/10 bg-black/10 shrink-0 mt-auto">
               <AccountInfo />
             </div>
           </div>
@@ -233,14 +233,14 @@ export function NavbarManager() {
 
       {/* ===================== Desktop Sidebar ===================== */}
       {/* 
-        h-screen & flex-col & shrink-0 ضرورية جداً مع min-h-0 في ال ScrollArea لضمان عمل ال Scroll 
+      
       */}
       <aside 
         dir={isRTL ? "rtl" : "ltr"}
         className={cn(
           "hidden xl:flex flex-col h-screen sticky top-0 bg-primary transition-all duration-300 ease-in-out shrink-0 z-40",
           isRTL ? "border-l border-primary/20" : "border-r border-primary/20", 
-          isCollapsed ? "w-[68px]" : "w-[250px]" // تم جعل العرض رفيع جداً (68px)
+          isCollapsed ? "w-[68px]" : "w-[250px]" 
         )}
       >
         {/* Header - Shrink 0 */}
@@ -283,10 +283,7 @@ export function NavbarManager() {
             <NotificationBell />
             <LanguageSwitcher />
             
-            {/* 
-              Account Info: يظهر دائماً.
-              في حالة الإغلاق، نقوم بإخفاء النصوص برمجياً لمنع تشوه التصميم وتبقى صورة الحساب (Avatar) 
-            */}
+  
         
               <AccountInfo />
           </div>

@@ -39,7 +39,7 @@ export const apiSlice = createApi({
   tagTypes: ["Zones" , "Categories"  ,"Invoices" ,  "Services" ,"Governorates" , "Users" ,"Teams" , "Account" , 'Booking' , "Notifications" ,"Assignments"
      ,"DashboardBooking" , "DashboardUsers" ,"DashboardTeams" , "DashboardAssignments" , "DashboardInvoices" ,"DashboardFinancial" , "DashboardToday"
      , 'MaterialCategories', 'Materials', 'Inventory', 'Serials' ,"ExplorerLevel" , "DashboardStats" , "JobExecutions" , "Safes" , "Accounts" , "InventoryTransactions" ,"Suppliers" ,
-     "TreasuryTransactions" , "PurchaseInvoices" , "Collections"  , "Expenses" , "Vouchers" , "TechnicianProfiles" , "Advance" ,"TechnicianEarnings" , "PendingSettlements"
+     "TreasuryTransactions" , "PurchaseInvoices" , "Collections"  , "Expenses" , "Vouchers" , "TechnicianProfiles" , "Advance" ,"TechnicianEarnings" , "PendingSettlements" , "CollectionsDash" , "ExpensesDash"
   ],
   endpoints: () => ({})
 

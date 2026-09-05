@@ -19,21 +19,21 @@ const ALL_ASSIGNMENT_STATUSES = [
 const STATUS_UI = {
   in_progress: { 
     icon: Activity, 
-    containerClass: 'border-l-4 border-sky-500 bg-sky-50/50 hover:bg-sky-50/80', 
-    textClass: 'text-sky-700 font-semibold',
-    badgeClass: ' text-sky-800 shadow-sm'
+    containerClass: 'bg-sky-50/30 border border-sky-100 hover:bg-sky-50', 
+    textClass: 'text-sky-800 font-medium',
+    badgeClass: 'bg-white text-sky-700 border-sky-200'
   },
   pending: { 
     icon: Clock, 
-    containerClass: 'border-l-4 border-amber-500 bg-amber-50/40 hover:bg-amber-50/80', 
-    textClass: 'text-amber-700 font-semibold',
-    badgeClass: ' text-amber-800 shadow-sm'
+    containerClass: 'bg-amber-50/30 border border-amber-100 hover:bg-amber-50', 
+    textClass: 'text-amber-800 font-medium',
+    badgeClass: 'bg-white text-amber-700 border-amber-200'
   },
   completed: { 
     icon: CheckCircle2, 
-    containerClass: 'border-l-4 border-emerald-500 bg-emerald-50/40 hover:bg-emerald-50/80', 
-    textClass: 'text-emerald-700 font-semibold',
-    badgeClass: ' text-emerald-800 shadow-sm'
+    containerClass: 'bg-emerald-50/30 border border-emerald-100 hover:bg-emerald-50', 
+    textClass: 'text-emerald-800 font-medium',
+    badgeClass: 'bg-white text-emerald-700 border-emerald-200'
   }
 };
 
@@ -50,12 +50,11 @@ export default function AssignmentsWidget() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg border border-slate-200 p-8 shadow-sm animate-pulse h-[380px]">
-        <div className="h-6 bg-slate-100 rounded-lg w-1/3 mb-6"></div>
-        <div className="h-10 bg-slate-100 rounded-lg w-1/4 mb-10"></div>
-        <div className="flex flex-col gap-4">
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] animate-pulse h-[380px]">
+        <div className="h-6 bg-slate-100 rounded w-1/3 mb-6"></div>
+        <div className="flex flex-col gap-4 mt-8">
            {[...Array(3)].map((_, i) => (
-             <div key={i} className="h-12 rounded-lg bg-slate-50 w-full"></div>
+             <div key={i} className="h-14 rounded-lg bg-slate-50 w-full border border-slate-100"></div>
            ))}
         </div>
       </div>
@@ -64,8 +63,8 @@ export default function AssignmentsWidget() {
 
   if (isError) {
     return (
-      <div className="bg-white rounded-lg border border-red-200 p-8 shadow-sm h-[380px] flex items-center justify-center">
-        <p className="text-red-500 text-sm font-medium">حدث خطأ أثناء تحميل بيانات المهام</p>
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] h-[380px] flex items-center justify-center">
+        <p className="text-slate-500 text-sm font-medium">حدث خطأ أثناء تحميل بيانات المهام</p>
       </div>
     );
   }
@@ -74,26 +73,29 @@ export default function AssignmentsWidget() {
   const total = data?.data?.total || 0;
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm transition-shadow hover:shadow-md h-full flex flex-col">
+    <div className="bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] h-full flex flex-col">
       
-      {/* Header */}
-      <div className="mb-6 border-b border-slate-100 bg-gray-100/80 p-6">
-        <h2 className="text-lg font-medium text-primary gap-3 items-center flex">
-          {/* صندوق الأيقونة: حواف ناعمة rounded-lg */}
-          <span className="p-2 bg-primary/5 rounded-lg text-primary shadow-sm">
+      <div className="p-5 border-b border-slate-100 flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-700 shrink-0">
             <ClipboardList className="w-5 h-5" strokeWidth={1.5} />
-          </span>
-          <div className="flex items-center gap-2">
-            <span>{t('title')}</span>
-            {/* الرقم الإجمالي بداخل دائرة أنيقة */}
-            <span className="bg-primary/10 text-primary border-none rounded-full font-bold px-3 py-1 text-sm shadow-none">
-              {total}
-            </span>
           </div>
-        </h2>
+          <div>
+            <h2 className="text-[15px] font-bold text-slate-800 tracking-tight leading-tight">
+              {t('title')}
+            </h2>
+            <p className="text-[12px] text-slate-500 font-medium mt-0.5">
+              إحصائيات المهام المسندة
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col items-center justify-center bg-slate-50 border border-slate-100 rounded-lg px-4 py-1.5 min-w-[60px]">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Total</span>
+          <span className="text-lg font-mono font-bold text-slate-800 leading-none">{total}</span>
+        </div>
       </div>
 
-      <div className="flex flex-col p-6 pt-0 gap-3 flex-grow">
+      <div className="flex flex-col p-5 gap-3.5 flex-grow justify-center">
         {ALL_ASSIGNMENT_STATUSES.map((status) => {
           const UI = STATUS_UI[status as keyof typeof STATUS_UI];
           const Icon = UI.icon;
@@ -102,16 +104,16 @@ export default function AssignmentsWidget() {
           return (
             <div 
               key={status} 
-              className={`flex justify-between items-center p-4 rounded-lg transition-all duration-200 ${UI.containerClass}`}
+              className={`flex justify-between items-center p-3.5 rounded-xl transition-all duration-200 ${UI.containerClass}`}
             >
               <div className="flex items-center gap-3">
                 <Icon className={`w-5 h-5 ${UI.textClass}`} strokeWidth={2} />
-                <span className={`text-sm ${UI.textClass} tracking-wide`}>
+                <span className={`text-[13px] ${UI.textClass}`}>
                   {t(`statuses.${status}`)}
                 </span>
               </div>
               
-              <span className={`text-sm font-bold px-3 py-1 rounded-full border shadow-sm ${UI.badgeClass}`}>
+              <span className={`text-[13px] font-mono font-bold px-3 py-1 rounded-md shadow-sm ${UI.badgeClass}`}>
                 {count}
               </span>
             </div>

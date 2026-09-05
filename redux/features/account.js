@@ -34,5 +34,6 @@ getUserAccountInfo: builder.query({
 });
 
 export const {
-useGetUserAccountInfoQuery
+useGetUserAccountInfoQuery ,
+useLazyGetUserAccountInfoQuery
 } = accoubtapiSlice;

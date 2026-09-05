@@ -771,9 +771,25 @@
       "statuses": {
         "paid": "مدفوعة",
         "draft": "مسودة",
+      "partially_paid" : "مدفوعة جزئياً",
+
         "cancelled": "ملغاة"
       }
-    } ,
+    } ,"expenses": {
+      "title": "إحصائيات المصروفات",
+      "statuses": {
+        "PENDING_APPROVAL": "بانتظار الموافقة",
+        "APPROVED": "تمت الموافقة",
+        "REJECTED": "مرفوضة"
+      }
+    },
+    "collections": {
+      "title": "إحصائيات التحصيلات",
+      "statuses": {
+        "PENDING": "عهدة لدى الفني",
+        "REMITTED": "تم التوريد للخزنة"
+      }
+    },
     "assignments": {
       "title": "مهام الفرق",
       "total": "إجمالي المهام",
