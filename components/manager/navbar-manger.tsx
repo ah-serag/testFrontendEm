@@ -192,9 +192,7 @@ export function NavbarManager() {
           <button onClick={() => setIsMobileMenuOpen(true)} className="text-white/70 hover:text-white transition-colors ml-1">
             <Menu size={22} />
           </button>
-          <Link href="/" className="flex text-xl items-center font-bold text-white tracking-widest">
-            EMPAPY
-          </Link>
+     
         </div>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
