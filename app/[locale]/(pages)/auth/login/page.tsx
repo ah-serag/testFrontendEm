@@ -200,16 +200,7 @@ export default function SignInPage() {
         </form>
 
         {/* Footer */}
-        <div className="mt-8 text-center text-[12.5px] font-medium text-slate-500">
-          Don't have an account?{" "}
-          <Link 
-            href="/auth/register" 
-            className="text-primary font-bold hover:text-primary/80 transition-colors duration-200 underline decoration-primary/30 underline-offset-4"
-          >
-            Register here
-          </Link>
-        </div>
-        
+   
       </div>
     </div>
   )

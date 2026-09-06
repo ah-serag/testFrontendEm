@@ -1,4 +1,5 @@
 "use client"
+import React, { useMemo } from 'react';
 import { Loader2, Inbox, Users, ShieldAlert, AlertCircle } from 'lucide-react';
 import { useGetSupervisorAssignmentsQuery } from '@/redux/features/TeamApiSlice';
 import AssignmentCard from '@/components/Team/AssignmentCard';
@@ -30,6 +31,35 @@ export default function AssignmentsPage() {
     refetch,
     isFetching
   } = useGetSupervisorAssignmentsQuery<any>(undefined);
+
+  // 1. استخراج البيانات بأمان
+  const safeResponse = response as AssignmentsResponse;
+  const assignments = safeResponse?.data || [];
+  const count = safeResponse?.count || 0;
+  const teamName = assignments[0]?.team_details?.team_name;
+
+  // 2. خوارزمية الترتيب الذكية والآمنة (بدون أي أخطاء TypeScript)
+  const sortedAssignments = useMemo(() => {
+    if (!assignments || assignments.length === 0) return [];
+
+    return [...assignments].sort((a, b) => {
+      const activeStatuses = ['IN_PROGRESS', 'STARTED', 'ACTIVE', 'ON_WAY'];
+
+      // استخراج الحالة بأمان تام لتجاوز قيود TypeScript (مع دعم أي مسمى للحالة)
+      const statusA = String((a as any)?.status || (a as any)?.assignment_status || '').toUpperCase();
+      const statusB = String((b as any)?.status || (b as any)?.assignment_status || '').toUpperCase();
+
+      const aIsActive = activeStatuses.includes(statusA);
+      const bIsActive = activeStatuses.includes(statusB);
+
+      if (aIsActive && !bIsActive) return -1;
+      if (!aIsActive && bIsActive) return 1;
+
+      // ترتيب المهام المتشابهة حسب الأحدث
+      return ((b as any)?.assignment_id || 0) - ((a as any)?.assignment_id || 0);
+    });
+  }, [assignments]);
+
 
   if (isLoading) {
     return (
@@ -76,17 +106,11 @@ export default function AssignmentsPage() {
             </p>
           </div>
           
-          {/* استخدام زر التحديث كـ Text */}
           <RefreshButton onRefresh={refetch} isFetching={isFetching} variant="text" />
         </div>
       </div>
     );
   }
-
-  const safeResponse = response as AssignmentsResponse;
-  const assignments = safeResponse?.data || [];
-  const count = safeResponse?.count || 0;
-  const teamName = assignments[0]?.team_details?.team_name;
 
   return (
     <div className="min-h-screen bg-gray-50 pb-10 pt-0" dir="rtl">
@@ -119,7 +143,7 @@ export default function AssignmentsPage() {
         <div className="max-w-md mx-auto px-3 pb-6">
           
           {/* حالة عدم وجود مهام */}
-          {assignments.length === 0 ? (
+          {sortedAssignments.length === 0 ? (
             <div className="mt-16 flex flex-col items-center justify-center text-center gap-4 p-8 bg-white border border-gray-100 rounded-3xl shadow-sm">
               <div className="p-5 bg-gray-50 rounded-full text-gray-300">
                 <Inbox size={40} strokeWidth={1.5} />
@@ -129,14 +153,13 @@ export default function AssignmentsPage() {
                 <p className="text-gray-500 text-sm">أنتظر تعيين مهام جديدة من الإدارة.</p>
               </div>
               
-              {/* زر التحديث هنا أيضاً ناعم وبدون دوشة */}
               <RefreshButton onRefresh={refetch} isFetching={isFetching} variant="text" />
             </div>
           ) : (
             
-            /* الكروت */
+            /* الكروت - الآن ستظهر المهام قيد التنفيذ في الأعلى دائماً بدون أخطاء TypeScript */
             <div className="flex flex-col gap-4">
-              {assignments.map((assignment: Assignment) => (
+              {sortedAssignments.map((assignment: Assignment) => (
                 <AssignmentCard 
                   key={assignment.assignment_id} 
                   assignment={assignment} 

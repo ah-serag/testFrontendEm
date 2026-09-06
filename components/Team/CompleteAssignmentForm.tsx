@@ -334,11 +334,11 @@ export default function CompleteAssignmentForm({ assignmentId, initialMembers, o
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4" dir="rtl">
-      <div className="bg-slate-50 w-full sm:w-[540px] rounded-t-xl sm:rounded-3xl shadow-2xl h-[95vh] sm:h-[90vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-0 sm:p-4" dir="rtl">
+      <div className="bg-slate-50 w-full h-[100dvh] rounded-none sm:w-[540px] sm:h-[90vh] sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
 
         {/* الهيدر */}
-        <div className="flex justify-between bg-secondary p-5 px-6 items-center shrink-0 z-10 shadow-md">
+        <div className="flex justify-between bg-secondary p-5 px-6 items-center shrink-0 z-10 shadow-md pt-safe sm:pt-5">
           <div className="flex items-center gap-3">
              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shadow-inner">
                <FileText size={20} className="text-white" />
@@ -357,7 +357,7 @@ export default function CompleteAssignmentForm({ assignmentId, initialMembers, o
 
           <div className="flex-1 min-h-0 overflow-hidden">
             <ScrollArea className="h-full w-full" dir="rtl">
-              <div className="flex flex-col gap-6 p-2 sm:p-6 pb-10">
+              <div className="flex flex-col gap-6 p-4 sm:p-6 pb-10">
 
                 {/* الخدمات المنفذة */}
                 <div className="bg-white rounded-2xl  shadow-sm border border-slate-200/70 space-y-4">
