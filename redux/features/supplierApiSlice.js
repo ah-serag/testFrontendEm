@@ -14,7 +14,7 @@ export const supplierApiSlice = apiSlice.injectEndpoints({
         
         return `/api/suppliers?${queryParams.toString()}`;
       },
-      providesTags: ['Suppliers'],
+      providesTags: ['Suppliers' ,"SupplierTransactions"],
     }),
 
 
@@ -26,7 +26,7 @@ export const supplierApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['Suppliers'],
+      invalidatesTags: ['Suppliers' ,"SupplierTransactions"],
     }),
     
     updateSupplier: builder.mutation({
@@ -35,13 +35,25 @@ export const supplierApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Suppliers'],
+      invalidatesTags: ['Suppliers' , "SupplierTransactions"],
     }),
 
     getSuppliersForSelect: builder.query({
       query: () => '/api/suppliers/select',
       providesTags: ['Suppliers'],
     }),
+
+    getSupplierTransactions: builder.query({
+      query: (params) => {
+        return {
+          url: '/api/suppliers/supplier-transactions',
+          method: 'GET',
+          params: params, 
+        };
+      },
+      providesTags: ['SupplierTransactions'],
+    }),
+
 
   }),
 });
@@ -50,5 +62,6 @@ export const {
   useCreateSupplierMutation,
   useUpdateSupplierMutation,
   useGetSuppliersForSelectQuery ,
-  useGetSuppliersQuery
+  useGetSuppliersQuery ,
+  useGetSupplierTransactionsQuery
 } = supplierApiSlice;

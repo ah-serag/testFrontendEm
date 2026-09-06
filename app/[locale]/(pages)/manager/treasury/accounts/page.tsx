@@ -120,89 +120,95 @@ export default function AccountsPage() {
             <RefreshButton onRefresh={refetch} isFetching={isFetching} variant="icon" />
           </div>
           
-          <Dialog open={isModalOpen} onOpenChange={(open) => {
-            setIsModalOpen(open);
-            if (!open) reset();
-          }}>
-            <DialogTrigger asChild>
-              <Button className="rounded-xl h-11 px-6 text-sm font-semibold shadow-sm gap-2 bg-primary hover:bg-primary/90 text-white transition-all">
-                <Plus size={18} /> {t("accounts.addBtn") || "حساب جديد"}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] rounded-2xl border-slate-200 p-0 overflow-hidden shadow-2xl" dir={isRTL ? "rtl" : "ltr"}>
-              <DialogHeader className="p-6 pb-4 border-b border-slate-100 bg-slate-50/50">
-                <DialogTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <BookOpen className="h-5 w-5 text-slate-600" />
-                  {t("accounts.createTitle") || "إنشاء حساب جديد"}
-                </DialogTitle>
-              </DialogHeader>
-              
-              <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
-                
-                {/* كود الحساب (بأناقة وتناسق) */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-slate-700 px-1">{t("accounts.code") || "كود الحساب"}</label>
-                  <Input 
-                    {...register("code")} 
-                    placeholder={t("accounts.codePlaceholder") || "مثال: 4001"} 
-                    className="rounded-xl h-11 px-4 border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus:bg-white shadow-sm focus-visible:ring-1 focus-visible:ring-slate-400 font-mono transition-all" 
-                  />
-                  {errors.code && <p className="text-[11px] text-rose-500 font-medium px-1">{errors.code.message}</p>}
-                </div>
+        <Dialog open={isModalOpen} onOpenChange={(open) => {
+  setIsModalOpen(open);
+  if (!open) reset();
+}}>
+  <DialogTrigger asChild>
+    <Button className="rounded-xl h-11 px-4 sm:px-6 text-sm font-semibold shadow-sm gap-2 bg-primary hover:bg-primary/90 text-white transition-all">
+      <Plus size={18} /> <span className="hidden sm:inline">{t("accounts.addBtn") || "حساب جديد"}</span><span className="sm:hidden">جديد</span>
+    </Button>
+  </DialogTrigger>
+  
+  <DialogContent 
+    className="w-[95vw] sm:max-w-[425px] rounded-2xl sm:rounded-[2rem] border-slate-200 p-0 overflow-hidden shadow-2xl max-h-[90vh] flex flex-col" 
+    dir={isRTL ? "rtl" : "ltr"}
+  >
+    <DialogHeader className="p-5 sm:p-6 pb-4 sm:pb-4 border-b border-slate-100 bg-slate-50/50 shrink-0">
+      <DialogTitle className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+        <BookOpen className="h-5 w-5 text-slate-600" />
+        {t("accounts.createTitle") || "إنشاء حساب جديد"}
+      </DialogTitle>
+    </DialogHeader>
+    
+    <div className="flex-1 overflow-y-auto">
+      <form onSubmit={handleSubmit(onSubmit)} className="p-5 sm:p-6 space-y-4 sm:space-y-5">
+        
+        {/* كود الحساب */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs sm:text-[13px] font-medium text-slate-700 px-1">{t("accounts.code") || "كود الحساب"}</label>
+          <Input 
+            {...register("code")} 
+            placeholder={t("accounts.codePlaceholder") || "مثال: 4001"} 
+            className="rounded-xl h-11 sm:h-12 px-4 border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus:bg-white shadow-sm focus-visible:ring-1 focus-visible:ring-slate-400 font-mono transition-all text-sm" 
+          />
+          {errors.code && <p className="text-[10px] sm:text-[11px] text-rose-500 font-medium px-1">{errors.code.message as string}</p>}
+        </div>
 
-                {/* اسم الحساب */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-slate-700 px-1">{t("accounts.name") || "اسم البند"}</label>
-                  <Input 
-                    {...register("name")} 
-                    placeholder={t("accounts.namePlaceholder") || "مثال: إيرادات صيانة"} 
-                    className="rounded-xl h-11 px-4 border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus:bg-white shadow-sm focus-visible:ring-1 focus-visible:ring-slate-400 transition-all" 
-                  />
-                  {errors.name && <p className="text-[11px] text-rose-500 font-medium px-1">{errors.name.message}</p>}
-                </div>
+        {/* اسم الحساب */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs sm:text-[13px] font-medium text-slate-700 px-1">{t("accounts.name") || "اسم البند"}</label>
+          <Input 
+            {...register("name")} 
+            placeholder={t("accounts.namePlaceholder") || "مثال: إيرادات صيانة"} 
+            className="rounded-xl h-11 sm:h-12 px-4 border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus:bg-white shadow-sm focus-visible:ring-1 focus-visible:ring-slate-400 transition-all text-sm" 
+          />
+          {errors.name && <p className="text-[10px] sm:text-[11px] text-rose-500 font-medium px-1">{errors.name.message as string}</p>}
+        </div>
 
-                {/* نوع الحساب */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-slate-700 px-1">{t("accounts.type") || "النوع"}</label>
-                  <Controller
-                    control={control}
-                    name="type"
-                    render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger className="rounded-xl h-11 px-4 border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus:bg-white shadow-sm focus:ring-1 focus:ring-slate-400 transition-all">
-                          <SelectValue placeholder={t("accounts.typePlaceholder") || "اختر النوع"} />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200 shadow-lg">
-                          <SelectItem value="REVENUE" className="py-2.5 cursor-pointer">
-                            <div className="flex items-center gap-2">
-                              <TrendingUp size={14} className="text-emerald-600" /> {t("accounts.types.revenue") || "إيراد"}
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="EXPENSE" className="py-2.5 cursor-pointer">
-                            <div className="flex items-center gap-2">
-                              <TrendingDown size={14} className="text-rose-600" /> {t("accounts.types.expense") || "مصروف"}
-                            </div>
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                  {errors.type && <p className="text-[11px] text-rose-500 font-medium px-1">{errors.type.message}</p>}
-                </div>
+        {/* نوع الحساب */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs sm:text-[13px] font-medium text-slate-700 px-1">{t("accounts.type") || "النوع"}</label>
+          <Controller
+            control={control}
+            name="type"
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger className="rounded-xl h-11 sm:h-12 px-4 border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus:bg-white shadow-sm focus:ring-1 focus:ring-slate-400 transition-all text-sm">
+                  <SelectValue placeholder={t("accounts.typePlaceholder") || "اختر النوع"} />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl border-slate-200 shadow-lg">
+                  <SelectItem value="REVENUE" className="py-2.5 cursor-pointer text-sm">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp size={14} className="text-emerald-600" /> {t("accounts.types.revenue") || "إيراد"}
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="EXPENSE" className="py-2.5 cursor-pointer text-sm">
+                    <div className="flex items-center gap-2">
+                      <TrendingDown size={14} className="text-rose-600" /> {t("accounts.types.expense") || "مصروف"}
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          {errors.type && <p className="text-[10px] sm:text-[11px] text-rose-500 font-medium px-1">{errors.type.message as string}</p>}
+        </div>
 
-                <DialogFooter className="pt-6 mt-6">
-                  <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl text-sm font-semibold h-11 px-6 w-full sm:w-auto text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-                      {t("common.cancel") || "إلغاء"}
-                    </Button>
-                    <Button type="submit" disabled={isCreating} className="rounded-xl text-sm font-semibold h-11 px-8 w-full sm:w-auto shadow-sm bg-slate-900 hover:bg-slate-800 text-white transition-all">
-                      {isCreating ? <RefreshCcw className="h-4 w-4 animate-spin" /> : (t("common.save") || "حفظ")}
-                    </Button>
-                  </div>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
+        <DialogFooter className="pt-4 sm:pt-6 mt-2 sm:mt-4">
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5 sm:gap-3 w-full">
+            <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl text-sm font-semibold h-11 px-6 w-full sm:w-auto text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+              {t("common.cancel") || "إلغاء"}
+            </Button>
+            <Button type="submit" disabled={isCreating} className="rounded-xl text-sm font-semibold h-11 px-8 w-full sm:w-auto shadow-sm bg-slate-900 hover:bg-slate-800 text-white transition-all">
+              {isCreating ? <RefreshCcw className="h-4 w-4 animate-spin" /> : (t("common.save") || "حفظ")}
+            </Button>
+          </div>
+        </DialogFooter>
+      </form>
+    </div>
+  </DialogContent>
+</Dialog>
         </div>
       </div>
 

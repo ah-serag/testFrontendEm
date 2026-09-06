@@ -109,7 +109,7 @@ export default function SuppliersPage() {
           </div>
           <div className="w-full lg:w-auto">
             <Select onValueChange={(val) => setFilters({ ...filters, status: val === "all" ? "" : val, page: 1 })}>
-              <SelectTrigger className="w-full lg:w-[220px] px-4 rounded-xl border-slate-200 shadow-sm h-12 bg-slate-50 focus:ring-primary/20 text-[14px]">
+              <SelectTrigger  className="w-full lg:w-[220px] px-4 rounded-xl border-slate-200 shadow-sm h-12 bg-slate-50 focus:ring-primary/20 text-[14px]">
                 <SelectValue placeholder={t("filters.statusFilter")} />
               </SelectTrigger>
               <SelectContent className="rounded-xl text-primary border-slate-200 shadow-xl">
